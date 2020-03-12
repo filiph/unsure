@@ -1,5 +1,5 @@
-import 'package:uncertainty/uncertainty.dart';
 import 'package:test/test.dart';
+import 'package:uncertainty/uncertainty.dart';
 
 void main() {
   group('Range', () {
@@ -18,8 +18,8 @@ void main() {
   });
 }
 
-Map<int, int> _countOccurrences(Iterable<int> numbers){
-  final result = <int,int>{};
+Map<int, int> _countOccurrences(Iterable<int> numbers) {
+  final result = <int, int>{};
 
   for (final n in numbers) {
     final count = result.putIfAbsent(n, () => 0);

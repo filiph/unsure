@@ -6,11 +6,12 @@ void main() {
   testingSimple();
 }
 
-void testingSimple() {
-  const c = 2;
-  var u = Range(1.9, 2.1);
+void testingAreaEstimate() {
+  // Area of my room.
+  var a = Range(3, 4);
+  var b = Range(1.5, 2.5);
 
-  var calc = Calculation(() => c + u.next());
+  var calc = Calculation(() => a.next() * b.next());
 
   var result = calc.run();
 
@@ -19,15 +20,10 @@ void testingSimple() {
   print(result.confidences[0]);
   print(result.confidences[1]);
   print(result.confidences[50]);
-  print(result.confidences[68]);
   print(result.confidences[90]);
   print(result.confidences[95]);
   print(result.confidences[99]);
   print(result.confidences[100]);
-  print(result.confidences[95].lower.toStringAsFixed(1) +
-      '~' +
-      result.confidences[95].upper.toStringAsFixed(1));
-  print('Mean: ${result.statistic.mean}');
 }
 
 void testingDivision() {
@@ -51,14 +47,14 @@ void testingDivision() {
   print('Mean: ${result.statistic.mean}');
 }
 
-void testingPlan() {
-  // We think that a project will take 2-3 weeks to set up,
-  // 10-20 weeks to build, and 1-2 weeks to wrap up.
-  var setup = Range(2, 3);
-  var build = Range(10, 20);
-  var wrapUp = Range(1, 2);
+void testingInterest() {
+  // An investment.
+  var principal = 1000;
+  var interestRate = Range(2, 4);
+  var time = Range(10, 12);
 
-  var calc = Calculation(() => setup.next() + build.next() + wrapUp.next());
+  var calc = Calculation(
+      () => principal * (1 + interestRate.next() / 100) * time.next());
 
   var result = calc.run();
 
@@ -71,16 +67,6 @@ void testingPlan() {
   print(result.confidences[95]);
   print(result.confidences[99]);
   print(result.confidences[100]);
-  print('Mean: ${result.statistic.mean}');
-
-  print('\nCompare with the naive approach, '
-      'where we take minimums and maximums and just combine them:');
-  var naiveBestCase = setup.minimum + build.minimum + wrapUp.minimum;
-  var naiveWorstCase = setup.maximum + build.maximum + wrapUp.maximum;
-  print('   Between $naiveBestCase and $naiveWorstCase weeks.');
-  print('Even in the case of simple addition, you get slightly different '
-      'results. And of course the naive case doesn\'t give you '
-      'any idea of the distribution.');
 }
 
 void testingLottery() {
@@ -122,6 +108,131 @@ void testingLottery() {
   print('$prob% v: ${result.confidences[prob].lower * 100} %');
 }
 
+void testingPlan() {
+  // We think that a project will take 2-3 weeks to set up,
+  // 10-20 weeks to build, and 1-2 weeks to wrap up.
+  var setup = Range(2, 3);
+  var build = Range(10, 20);
+  var wrapUp = Range(1, 2);
+
+  var calc = Calculation(() => setup.next() + build.next() + wrapUp.next());
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+  print('Mean: ${result.statistic.mean}');
+
+  print('\nCompare with the naive approach, '
+      'where we take minimums and maximums and just combine them:');
+  var naiveBestCase = setup.minimum + build.minimum + wrapUp.minimum;
+  var naiveWorstCase = setup.maximum + build.maximum + wrapUp.maximum;
+  print('   Between $naiveBestCase and $naiveWorstCase weeks.');
+  print('Even in the case of simple addition, you get slightly different '
+      'results. And of course the naive case doesn\'t give you '
+      'any idea of the distribution.');
+}
+
+void testingProbability() {
+  // Probability of dying from the corona virus
+
+  var morbidity = Range(0.1, 0.7);
+  var mortality = Range(0.002, 0.02);
+
+  var calc = Calculation(() => morbidity.next() * mortality.next());
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+
+  const prob = 85;
+  print('$prob% ^: ${result.confidences[prob].upper * 100} %');
+  print('$prob% v: ${result.confidences[prob].lower * 100} %');
+}
+
+void testingSimple() {
+  const c = 2;
+  var u = Range(1.9, 2.1);
+
+  var calc = Calculation(() => c + u.next());
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[68]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+  print(result.confidences[95].lower.toStringAsFixed(1) +
+      '~' +
+      result.confidences[95].upper.toStringAsFixed(1));
+  print('Mean: ${result.statistic.mean}');
+}
+
+void testingSpeed() {
+  // A car going by.
+  var distance = Range(100, 120);
+  var time = Range(3, 4);
+
+  var calc = Calculation(() => distance.next() / time.next() * 3.6);
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+}
+
+void testingTrigonometry() {
+  // Trigonometry
+  var distance = Range(900, 1100);
+  var angle = Range(10, 20);
+
+  // tan(theta) = opposite / adjacent
+  // therefore:
+  // opposite = tan(theta) * adjacent
+
+  var calc = Calculation(() => tan(angle.next() / 180 * pi) * distance.next());
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+}
+
 /// Computes the following formula with uncertainty:
 ///
 /// > (n / m) * (r ^ t)
@@ -156,117 +267,6 @@ void testingVirusSpread() {
     //print('===> $current');
     return current;
   });
-
-  var result = calc.run();
-
-  print(result);
-  print(result.histogram);
-  print(result.confidences[0]);
-  print(result.confidences[1]);
-  print(result.confidences[50]);
-  print(result.confidences[90]);
-  print(result.confidences[95]);
-  print(result.confidences[99]);
-  print(result.confidences[100]);
-}
-
-void testingProbability() {
-  // Probability of dying from the corona virus
-
-  var morbidity = Range(0.1, 0.7);
-  var mortality = Range(0.002, 0.02);
-
-  var calc = Calculation(() => morbidity.next() * mortality.next());
-
-  var result = calc.run();
-
-  print(result);
-  print(result.histogram);
-  print(result.confidences[0]);
-  print(result.confidences[1]);
-  print(result.confidences[50]);
-  print(result.confidences[90]);
-  print(result.confidences[95]);
-  print(result.confidences[99]);
-  print(result.confidences[100]);
-
-  const prob = 85;
-  print('$prob% ^: ${result.confidences[prob].upper * 100} %');
-  print('$prob% v: ${result.confidences[prob].lower * 100} %');
-}
-
-void testingInterest() {
-  // An investment.
-  var principal = 1000;
-  var interestRate = Range(2, 4);
-  var time = Range(10, 12);
-
-  var calc = Calculation(
-      () => principal * (1 + interestRate.next() / 100) * time.next());
-
-  var result = calc.run();
-
-  print(result);
-  print(result.histogram);
-  print(result.confidences[0]);
-  print(result.confidences[1]);
-  print(result.confidences[50]);
-  print(result.confidences[90]);
-  print(result.confidences[95]);
-  print(result.confidences[99]);
-  print(result.confidences[100]);
-}
-
-void testingSpeed() {
-  // A car going by.
-  var distance = Range(100, 120);
-  var time = Range(3, 4);
-
-  var calc = Calculation(() => distance.next() / time.next() * 3.6);
-
-  var result = calc.run();
-
-  print(result);
-  print(result.histogram);
-  print(result.confidences[0]);
-  print(result.confidences[1]);
-  print(result.confidences[50]);
-  print(result.confidences[90]);
-  print(result.confidences[95]);
-  print(result.confidences[99]);
-  print(result.confidences[100]);
-}
-
-void testingAreaEstimate() {
-  // Area of my room.
-  var a = Range(3, 4);
-  var b = Range(1.5, 2.5);
-
-  var calc = Calculation(() => a.next() * b.next());
-
-  var result = calc.run();
-
-  print(result);
-  print(result.histogram);
-  print(result.confidences[0]);
-  print(result.confidences[1]);
-  print(result.confidences[50]);
-  print(result.confidences[90]);
-  print(result.confidences[95]);
-  print(result.confidences[99]);
-  print(result.confidences[100]);
-}
-
-void testingTrigonometry() {
-  // Trigonometry
-  var distance = Range(900, 1100);
-  var angle = Range(10, 20);
-
-  // tan(theta) = opposite / adjacent
-  // therefore:
-  // opposite = tan(theta) * adjacent
-
-  var calc = Calculation(() => tan(angle.next() / 180 * pi) * distance.next());
 
   var result = calc.run();
 

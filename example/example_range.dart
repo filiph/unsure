@@ -10,9 +10,7 @@ void main() {
 
   for (final key in occurrences.keys.toList()..sort()) {
     var count = occurrences[key];
-    print(key.toString().padLeft(4) +
-        ' | ' +
-        '%' * (count / n * 20).round());
+    print(key.toString().padLeft(4) + ' | ' + '%' * (count / n * 20).round());
   }
 }
 

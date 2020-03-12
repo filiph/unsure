@@ -1,4 +1,5 @@
 import 'package:t_stats/t_stats.dart';
+import 'package:uncertainty/src/histogram.dart';
 import 'package:uncertainty/src/result.dart';
 
 /// A function that can be called repeatedly and it returns a number.
@@ -30,6 +31,20 @@ class Calculation {
     var confidences = _computeConfidences(results);
 
     return Result(stat, percentiles, confidences, histogram);
+  }
+
+  List<Confidence> _computeConfidences(List<double> results) {
+    return List<Confidence>.generate(101, (confidence) {
+      if (confidence == 100) {
+        return Confidence(100, double.negativeInfinity, double.infinity);
+      }
+
+      var padding = (1 - confidence / 100) / 2;
+      var minimum = results[(iterations * padding).round()];
+      var maximum = results[(iterations * (1 - padding)).round()];
+
+      return Confidence(confidence, minimum, maximum);
+    });
   }
 
   static ProbabilityHistogram _computeHistogram(
@@ -66,19 +81,5 @@ class Calculation {
 
     return ProbabilityHistogram(lower, upper, bandSize, bandsCount, occurrences,
         belowLower, aboveUpper);
-  }
-
-  List<Confidence> _computeConfidences(List<double> results) {
-    return List<Confidence>.generate(101, (confidence) {
-      if (confidence == 100) {
-        return Confidence(100, double.negativeInfinity, double.infinity);
-      }
-
-      var padding = (1 - confidence / 100) / 2;
-      var minimum = results[(iterations * padding).round()];
-      var maximum = results[(iterations * (1 - padding)).round()];
-
-      return Confidence(confidence, minimum, maximum);
-    });
   }
 }
