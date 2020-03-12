@@ -4,25 +4,48 @@ import 'package:petitparser/petitparser.dart';
 import 'package:uncertainty/src/calculation.dart';
 import 'package:uncertainty/src/range.dart';
 
-class ParsedCalculation {
-  /// A map from string representations of ranges (like `4~5`) to their
-  /// [Range] instances.
-  Map<String, Range> ranges;
-}
+final numberParser = digit()
+    .plus()
+    .seq(char('.').seq(digit().plus()).optional())
+    .flatten()
+    .trim()
+    .map((a) => double.tryParse(a));
+
+final rangeGatherer = rangeParser.map<Range>((a) {
+  assert(a.length == 3);
+  return Range(a.first, a.last);
+});
+
+// Instantiate all the ranges we'll need, so that we only do this once.
+final rangeParser = numberParser.seq(char('~').trim()).seq(numberParser);
 
 Formula parseString(String string) {
+  // Gather them from the string, skipping over everything else.
+  final rangesList = rangeGatherer.matchesSkipping(string);
+
+  // Put all the ranges in a map, accessible by a string.
+  final ranges = <String, Range>{};
+  for (final range in rangesList) {
+    ranges['${range.minimum}~${range.maximum}'] = range;
+  }
+
+  // Load the range back from our map, and call `.next()` to get a random
+  // number from it.
+  final rangeExecutor = rangeParser.map((a) {
+    assert(a.length == 3);
+    final minimum = a.first, maximum = a.last;
+    final range = ranges['$minimum~$maximum'];
+    return range.next();
+  });
+
+  // Start the arithmetic parser.
+  // The following is taken from `package:petitparser` README.
   final builder = ExpressionBuilder();
 
-  // TODO: skip the string and gather ranges and instantiate them
-
-  // The following is taken from `package:petitparser` README.
   builder.group()
-    ..primitive(digit()
-        .plus()
-        .seq(char('.').seq(digit().plus()).optional())
-        .flatten()
-        .trim()
-        .map((a) => double.tryParse(a)))
+    // Range is at the top. We give it more importance than anything else.
+    ..primitive(rangeExecutor)
+    ..primitive(numberParser)
     ..wrapper(char('(').trim(), char(')').trim(), (l, a, r) => a);
 
   // negation is a prefix operator
