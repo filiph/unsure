@@ -3,9 +3,32 @@ import 'dart:math';
 import 'package:uncertainty/uncertainty.dart';
 
 void main() {
-  testingDivision();
+  testingSimple();
 }
 
+void testingSimple() {
+  const c = 2;
+  var u = Range(1.9, 2.1);
+
+  var calc = Calculation(() => c + u.next());
+
+  var result = calc.run();
+
+  print(result);
+  print(result.histogram);
+  print(result.confidences[0]);
+  print(result.confidences[1]);
+  print(result.confidences[50]);
+  print(result.confidences[68]);
+  print(result.confidences[90]);
+  print(result.confidences[95]);
+  print(result.confidences[99]);
+  print(result.confidences[100]);
+  print(result.confidences[95].lower.toStringAsFixed(1) +
+      '~' +
+      result.confidences[95].upper.toStringAsFixed(1));
+  print('Mean: ${result.statistic.mean}');
+}
 
 void testingDivision() {
   // We are splitting a thousand dollars between 3 to 5 people.
@@ -27,7 +50,6 @@ void testingDivision() {
   print(result.confidences[100]);
   print('Mean: ${result.statistic.mean}');
 }
-
 
 void testingPlan() {
   // We think that a project will take 2-3 weeks to set up,
