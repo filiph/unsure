@@ -53,7 +53,7 @@ class Calculation {
     final median = percentiles[50];
     final upper = percentiles[99];
 
-    const bandsCount = 20;
+    const bandsCount = 21;
     var bandSize = (upper - lower) / bandsCount;
 
     final occurrences = List<int>.generate(bandsCount, (_) => 0);
