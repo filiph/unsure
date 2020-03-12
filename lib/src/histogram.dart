@@ -59,9 +59,9 @@ class ProbabilityHistogram {
       buf.writeln();
     }
 
-    addLine('below', cumulativeCountBelow);
+    addLine('above', cumulativeCountAbove);
 
-    for (var i = 0; i < bandCount; i++) {
+    for (var i = bandCount -1; i >= 0; i--) {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
@@ -74,7 +74,7 @@ class ProbabilityHistogram {
       addLine(bandLabel.toStringAsFixed(precision), count, trailing: trailing);
     }
 
-    addLine('above', cumulativeCountAbove);
+    addLine('below', cumulativeCountBelow);
 
     return buf.toString();
   }
