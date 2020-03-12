@@ -48,18 +48,19 @@ class ProbabilityHistogram {
       buf.writeln();
     }
 
-    addLine('below', cumulativeCountBelow, '░');
+    addLine('below', cumulativeCountBelow, '▒' /*'░'*/);
 
     for (var i = 0; i < bandCount; i++) {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
-      var char = i >= bandCount / 4 && i < bandCount * 3 / 4 ? '▓' : '▒';
+      // var char = i >= bandCount / 4 && i < bandCount * 3 / 4 ? '▓' : '▒';
+      var char = '▒';
 
       addLine(bandStart.toStringAsFixed(precision), count, char);
     }
 
-    addLine('above', cumulativeCountAbove, '░');
+    addLine('above', cumulativeCountAbove, '▒' /*'░'*/);
 
     return buf.toString();
   }
