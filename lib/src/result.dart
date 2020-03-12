@@ -78,6 +78,10 @@ class Result {
   const Result(
       this.statistic, this.percentiles, this.confidences, this.histogram);
 
+  String get simple => '${confidences[95].lower}'
+      '~'
+      '${confidences[95].upper}';
+
   // TODO: toRange -- uses percentiles to get a range from this result
 
   @override
