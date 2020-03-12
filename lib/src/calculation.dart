@@ -50,6 +50,7 @@ class Calculation {
   static ProbabilityHistogram _computeHistogram(
       List<double> results, List<double> percentiles) {
     final lower = percentiles[1];
+    final median = percentiles[50];
     final upper = percentiles[99];
 
     const bandsCount = 20;
@@ -79,7 +80,7 @@ class Calculation {
       occurrences[band]++;
     }
 
-    return ProbabilityHistogram(lower, upper, bandSize, bandsCount, occurrences,
-        belowLower, aboveUpper);
+    return ProbabilityHistogram(lower, median, upper, bandSize, bandsCount,
+        occurrences, belowLower, aboveUpper);
   }
 }

@@ -9,6 +9,8 @@ class ProbabilityHistogram {
 
   final double bandSize;
 
+  final double median;
+
   final int bandCount;
 
   final List<int> counts;
@@ -19,6 +21,7 @@ class ProbabilityHistogram {
 
   const ProbabilityHistogram(
     this.lowerBound,
+    this.median,
     this.upperBound,
     this.bandSize,
     this.bandCount,
@@ -39,11 +42,19 @@ class ProbabilityHistogram {
 
     /// Adds a line to [buf]. You can specify a different character
     /// for the bar, such as '░' or '▓'.
-    void addLine(String label, int count, [String char = '▒']) {
+    void addLine(
+      String label,
+      int count, {
+      String trailing,
+      String char = '▒',
+    }) {
       buf.write(label.padLeft(10));
       buf.write(' | ');
       for (var i = 0; i < (count / maxCount * maxSize); i++) {
         buf.write(char);
+      }
+      if (trailing != null) {
+        buf.write(trailing);
       }
       buf.writeln();
     }
@@ -54,7 +65,13 @@ class ProbabilityHistogram {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
-      addLine(bandStart.toStringAsFixed(precision), count);
+      String trailing;
+      if (bandStart < median && median < bandStart + bandSize) {
+        trailing = ' (${median.toStringAsFixed(2)})';
+      }
+
+      var bandLabel = bandStart + bandSize / 2;
+      addLine(bandLabel.toStringAsFixed(precision), count, trailing: trailing);
     }
 
     addLine('above', cumulativeCountAbove);
