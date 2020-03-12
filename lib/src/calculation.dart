@@ -20,9 +20,10 @@ class Calculation {
 
     const percentileCount = 101 /* 0 - 100 */;
     var percentiles = List<double>(percentileCount);
-    for (var p = 0; p < percentileCount; p++) {
-      percentiles[p] = results[(iterations * p / percentileCount).floor()];
+    for (var p = 0; p < percentileCount - 1; p++) {
+      percentiles[p] = results[(iterations * p / 100).floor()];
     }
+    percentiles[100] = results.last;
 
     var histogram = _computeHistogram(results, percentiles);
 
@@ -33,8 +34,8 @@ class Calculation {
 
   static ProbabilityHistogram _computeHistogram(
       List<double> results, List<double> percentiles) {
-    final lower = percentiles[2];
-    final upper = percentiles[98];
+    final lower = percentiles[1];
+    final upper = percentiles[99];
 
     const bandsCount = 20;
     var bandSize = (upper - lower) / bandsCount;
