@@ -39,25 +39,27 @@ class ProbabilityHistogram {
     /// The scale of the highest bar in the output.
     const maxSize = 30;
 
-    void addLine(String label, int count) {
+    void addLine(String label, int count, String char) {
       buf.write(label.padLeft(10));
       buf.write(' | ');
       for (var i = 0; i < (count / maxCount * maxSize); i++) {
-        buf.write('▒');
+        buf.write(char);
       }
       buf.writeln();
     }
 
-    addLine('below', cumulativeCountBelow);
+    addLine('below', cumulativeCountBelow, '░');
 
     for (var i = 0; i < bandCount; i++) {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
-      addLine(bandStart.toStringAsFixed(precision), count);
+      var char = i >= bandCount / 4 && i < bandCount * 3 / 4 ? '▓' : '▒';
+
+      addLine(bandStart.toStringAsFixed(precision), count, char);
     }
 
-    addLine('above', cumulativeCountAbove);
+    addLine('above', cumulativeCountAbove, '░');
 
     return buf.toString();
   }
