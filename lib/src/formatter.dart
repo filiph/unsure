@@ -1,9 +1,20 @@
+import 'dart:math';
+
 /// The list of precision. The [Formatter] algorithm goes from
 /// top to bottom, and tries each precision until it finds a good match.
 final _precisions = <_Precision>[
-  _Precision((n) => _round(n, 1000000000) + 'B'),
-  _Precision((n) => _round(n, 1000000) + 'M'),
-  _Precision((n) => _round(n, 1000) + 'K'),
+  _Precision(
+    (n) => _round(n, 1000000000) + 'B',
+    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+  ),
+  _Precision(
+    (n) => _round(n, 1000000) + 'M',
+    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+  ),
+  _Precision(
+    (n) => _round(n, 1000) + 'K',
+    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
+  ),
   _Precision((n) => n.round().toString()),
   _Precision((n) => n.toStringAsFixed(1)),
   _Precision((n) => n.toStringAsFixed(2)),
@@ -27,19 +38,30 @@ class Formatter {
     // The default is the Dart automatic precision.
     var best = _Precision((n) => n.toString());
 
+    var largestValue = numbers.fold<double>(0, (prev, e) => max(prev, e.abs()));
+
     final representations = <String>{};
+    // For each precision, in order of "vagueness" ...
     for (final precision in _precisions) {
-      // For each precision, in order of "vagueness" ...
+      var cumulativeError = 0.0;
       representations.clear();
       for (final n in numbers) {
         // ... try the precision on each number ...
         final r = precision.formatFunction(n);
         if (representations.contains(r)) break;
         representations.add(r);
+        cumulativeError += (n - precision.parseBack(r)).abs();
+      }
+      // ... discard the ones that accrue too large of an error ...
+      if (cumulativeError > 0.05 * largestValue) {
+        // (0.05 is an arbitrary constant. It _feels_ weird when the cumulative
+        // error is more than 5% of the largest value in the set.)
+        continue;
       }
       // ... and see if it results in a set of unique representations.
       if (representations.length == numbers.length) {
         best = precision;
+        // No need to continue, we've found our precision.
         break;
       }
     }
@@ -55,5 +77,7 @@ class Formatter {
 class _Precision {
   final String Function(double) formatFunction;
 
-  const _Precision(this.formatFunction);
+  final double Function(String) parseBack;
+
+  const _Precision(this.formatFunction, [this.parseBack = double.tryParse]);
 }

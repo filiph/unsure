@@ -17,6 +17,20 @@ void main() {
     expect(formatter.format(1001.1), '1001');
   });
 
+  test('2000 and 200', () {
+    var formatter = Formatter([2000, 200]);
+
+    expect(formatter.format(2000), '2000');
+    expect(formatter.format(200), '200');
+  });
+
+  test('3000 and 4400', () {
+    var formatter = Formatter([3000, 4400]);
+
+    expect(formatter.format(3000), '3000');
+    expect(formatter.format(4400), '4400');
+  });
+
   test('10000 and 0.0001', () {
     var formatter = Formatter([10000, 0.0001]);
 
@@ -44,15 +58,15 @@ void main() {
   test('1000000 and 5300000', () {
     var formatter = Formatter([1000000, 5300000]);
 
-    expect(formatter.format(1000000), '1M');
-    expect(formatter.format(5300000), '5M');
+    expect(formatter.format(1000000), '1.0M');
+    expect(formatter.format(5300000), '5.3M');
   });
 
   test('1000000000 and 5300000000', () {
     var formatter = Formatter([1000000000, 5300000000]);
 
-    expect(formatter.format(1000000000), '1B');
-    expect(formatter.format(5300000000), '5B');
+    expect(formatter.format(1000000000), '1.0B');
+    expect(formatter.format(5300000000), '5.3B');
   });
 
   test('0.000001 and 0.00000002 and 5300000000 (default)', () {
