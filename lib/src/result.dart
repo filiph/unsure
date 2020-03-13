@@ -1,4 +1,5 @@
 import 'package:t_stats/t_stats.dart';
+import 'package:uncertainty/src/formatter.dart';
 import 'package:uncertainty/src/histogram.dart';
 
 class Confidence {
@@ -12,9 +13,11 @@ class Confidence {
 
   @override
   String toString() {
+    final formatter = Formatter([lower, upper]);
+
     return "Confidence: We're $probability% sure that the result "
-        'is between ${lower.toStringAsFixed(2)} '
-        'and ${upper.toStringAsFixed(2)}.';
+        'is between ${formatter.format(lower)} '
+        'and ${formatter.format(upper)}.';
   }
 }
 
@@ -32,9 +35,14 @@ class Result {
   const Result(this.statistic, this.with2StandardDeviations, this.percentiles,
       this.confidences, this.histogram);
 
-  String get simple => '${with2StandardDeviations.lower}'
-      '~'
-      '${with2StandardDeviations.upper}';
+  String get simple {
+    final formatter = Formatter(
+        [with2StandardDeviations.lower, with2StandardDeviations.upper]);
+    final lower = formatter.format(with2StandardDeviations.lower);
+    final upper = formatter.format(with2StandardDeviations.upper);
+
+    return '$lower~$upper';
+  }
 
   // TODO: toRange -- uses percentiles to get a range from this result
 

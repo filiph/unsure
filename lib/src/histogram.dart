@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:uncertainty/src/formatter.dart';
+
 class ProbabilityHistogram {
   static const precision = 2;
 
@@ -34,6 +36,17 @@ class ProbabilityHistogram {
   String toString() {
     final buf = StringBuffer();
 
+    double bandLabelForIndex(int i) {
+      var bandStart = lowerBound + i * bandSize;
+      // The "label" is the number in the middle between the band's lower
+      // bound and the band's upper bound.
+      return bandStart + bandSize / 2;
+    }
+
+    final labels = List<double>.generate(bandCount, bandLabelForIndex);
+
+    final formatter = Formatter(labels);
+
     /// The highest of any of the bars.
     final maxCount = counts.fold<int>(0, max);
 
@@ -42,12 +55,8 @@ class ProbabilityHistogram {
 
     /// Adds a line to [buf]. You can specify a different character
     /// for the bar, such as '░' or '▓'.
-    void addLine(
-      String label,
-      int count, {
-      String trailing,
-      String char = '▒',
-    }) {
+    void addLine(String label, int count,
+        {String trailing, String char = '▒'}) {
       buf.write(label.padLeft(10));
       buf.write(' | ');
       for (var i = 0; i < (count / maxCount * maxSize); i++) {
@@ -61,17 +70,16 @@ class ProbabilityHistogram {
 
     addLine('above', cumulativeCountAbove);
 
-    for (var i = bandCount -1; i >= 0; i--) {
+    for (var i = bandCount - 1; i >= 0; i--) {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
       String trailing;
       if (bandStart < median && median < bandStart + bandSize) {
-        trailing = ' (${median.toStringAsFixed(2)})';
+        trailing = ' (${formatter.format(median)})';
       }
 
-      var bandLabel = bandStart + bandSize / 2;
-      addLine(bandLabel.toStringAsFixed(precision), count, trailing: trailing);
+      addLine(formatter.format(labels[i]), count, trailing: trailing);
     }
 
     addLine('below', cumulativeCountBelow);
