@@ -12,7 +12,10 @@ Future<int> main(List<String> args) async {
         abbr: 'h', help: 'Print this help information.', negatable: false)
     ..addFlag('percentiles',
         abbr: 'p', help: 'Show a table of percentiles.', negatable: false)
-    ..addFlag('histogram', help: 'Show the histogram.', defaultsTo: true);
+    ..addFlag('histogram', help: 'Show the histogram.', defaultsTo: true)
+    ..addFlag('padding',
+        help: 'Pads the result so it stands out more in the terminal.',
+        defaultsTo: true);
 
   final argResults = argParser.parse(args);
 
@@ -27,10 +30,18 @@ Future<int> main(List<String> args) async {
   final formula = parseString(formulaString);
   final calculation = Calculation(formula);
   final result = calculation.run();
-  print(result.simple);
+  if (argResults['padding']) {
+    print('\n\t${result.simple}\n');
+  } else {
+    print(result.simple);
+  }
 
   if (argResults['histogram']) {
-    print('\n  Histogram:');
+    if (!argResults['padding']) {
+      // The result itself doesn't have padding, so we need to add it here.
+      print('');
+    }
+    print('  Histogram:');
     print(result.histogram);
   }
 
