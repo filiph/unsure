@@ -60,6 +60,7 @@ final _precisions = <_Precision>[
     '324.3410',
     (n) => n.toStringAsFixed(4),
   ),
+  // See [Formatter()] for the least desirable precision (`double.toString`).
 ];
 
 /// Returns a string representation of the [number] divided by [divisor].
@@ -81,7 +82,16 @@ String _quantize(double number, int step) {
 class Formatter {
   _Precision _precision;
 
+  /// The constructor takes a list of [numbers]. It is best to provide
+  /// all the numbers that will be represented alongside each other,
+  /// or at least a good sample of them.
   Formatter(List<double> numbers) {
+    assert(
+        numbers.length >= 2,
+        'You should provide at least two numbers '
+        'to the formatter. Otherwise it might emit weirdly unspecific'
+        'numbers.');
+
     // The default is the Dart automatic precision.
     var best = _Precision(
       '324.34143423',
@@ -124,13 +134,23 @@ class Formatter {
   }
 }
 
+/// A level of precision for formatting numbers.
 class _Precision {
+  /// An example representation, for debugging purposes only.
   final String example;
 
+  /// A function that takes a number and emits a string representation
+  /// in this precision's format.
   final String Function(double) formatFunction;
 
+  /// Parse back the string emitted by [formatFunction] so that we can
+  /// compute the error (the difference between the actual number
+  /// and the represented number).
   final double Function(String) parseBack;
 
   const _Precision(this.example, this.formatFunction,
       [this.parseBack = double.tryParse]);
+
+  @override
+  String toString() => 'Precision<$example>';
 }
