@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:unsure/uncertainty.dart';
+import 'package:unsure/unsure.dart';
 
 void main() {
   testingSimple();

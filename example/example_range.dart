@@ -1,4 +1,4 @@
-import 'package:unsure/uncertainty.dart';
+import 'package:unsure/unsure.dart';
 
 void main() {
   var r = Range(3, 7);

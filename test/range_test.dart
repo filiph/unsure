@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:unsure/uncertainty.dart';
+import 'package:unsure/unsure.dart';
 
 void main() {
   group('Range', () {
