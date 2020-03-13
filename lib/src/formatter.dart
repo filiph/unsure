@@ -4,23 +4,50 @@ import 'dart:math';
 /// top to bottom, and tries each precision until it finds a good match.
 final _precisions = <_Precision>[
   _Precision(
+    '5B',
     (n) => _round(n, 1000000000) + 'B',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
+    '4.2B',
+    (n) => (n / 1000000000).toStringAsFixed(1) + 'B',
+    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+  ),
+  _Precision(
+    '5M',
     (n) => _round(n, 1000000) + 'M',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
+    '4.2M',
+    (n) => (n / 1000000).toStringAsFixed(1) + 'M',
+    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+  ),
+  _Precision(
+    '50K',
     (n) => _round(n, 1000) + 'K',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
   ),
-  _Precision((n) => n.round().toString()),
-  _Precision((n) => n.toStringAsFixed(1)),
-  _Precision((n) => n.toStringAsFixed(2)),
-  _Precision((n) => n.toStringAsFixed(3)),
-  _Precision((n) => n.toStringAsFixed(4)),
-  _Precision((n) => n.toString()),
+  _Precision(
+    '324',
+    (n) => n.round().toString(),
+  ),
+  _Precision(
+    '324.3',
+    (n) => n.toStringAsFixed(1),
+  ),
+  _Precision(
+    '324.34',
+    (n) => n.toStringAsFixed(2),
+  ),
+  _Precision(
+    '324.341',
+    (n) => n.toStringAsFixed(3),
+  ),
+  _Precision(
+    '324.3410',
+    (n) => n.toStringAsFixed(4),
+  ),
 ];
 
 String _round(double number, int level) {
@@ -36,7 +63,10 @@ class Formatter {
 
   Formatter(List<double> numbers) {
     // The default is the Dart automatic precision.
-    var best = _Precision((n) => n.toString());
+    var best = _Precision(
+      '324.34143423',
+      (n) => n.toString(),
+    );
 
     var largestValue = numbers.fold<double>(0, (prev, e) => max(prev, e.abs()));
 
@@ -75,9 +105,12 @@ class Formatter {
 }
 
 class _Precision {
+  final String example;
+
   final String Function(double) formatFunction;
 
   final double Function(String) parseBack;
 
-  const _Precision(this.formatFunction, [this.parseBack = double.tryParse]);
+  const _Precision(this.example, this.formatFunction,
+      [this.parseBack = double.tryParse]);
 }
