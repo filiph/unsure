@@ -64,5 +64,7 @@ Formula parseString(String string) {
 
   final parser = builder.build().end();
 
+  // TODO: instead of parsing every time, return a tree of nodes that
+  //       can execute themselves and emit a value
   return () => parser.parse(string).value as double;
 }
