@@ -23,9 +23,17 @@ class Calculation {
     const percentage2Standard = 95.45;
     const padding2Standard = (100 - percentage2Standard) / 2;
     var with2StandardDeviations = Confidence(
-      95.45,
+      percentage2Standard,
       results[(iterations * padding2Standard / 100).floor()],
       results[(iterations * (100 - padding2Standard) / 100).floor()],
+    );
+
+    const percentage3Standard = 99.73;
+    const padding3Standard = (100 - percentage3Standard) / 2;
+    var with3StandardDeviations = Confidence(
+      percentage3Standard,
+      results[(iterations * padding3Standard / 100).floor()],
+      results[(iterations * (100 - padding3Standard) / 100).floor()],
     );
 
     const percentileCount = 101 /* 0 - 100 */;
@@ -40,7 +48,7 @@ class Calculation {
     var confidences = _computeConfidences(results);
 
     return Result(
-        stat, with2StandardDeviations, percentiles, confidences, histogram);
+        stat, with2StandardDeviations, with3StandardDeviations, percentiles, confidences, histogram);
   }
 
   List<Confidence> _computeConfidences(List<double> results) {

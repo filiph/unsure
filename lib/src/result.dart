@@ -32,8 +32,16 @@ class Result {
 
   final Confidence with2StandardDeviations;
 
-  const Result(this.statistic, this.with2StandardDeviations, this.percentiles,
-      this.confidences, this.histogram);
+  final Confidence with3StandardDeviations;
+
+  const Result(
+    this.statistic,
+    this.with2StandardDeviations,
+    this.with3StandardDeviations,
+    this.percentiles,
+    this.confidences,
+    this.histogram,
+  );
 
   String get simple {
     final formatter = Formatter(

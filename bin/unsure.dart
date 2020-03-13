@@ -30,19 +30,32 @@ Future<int> main(List<String> args) async {
   print(result.simple);
 
   if (argResults['histogram']) {
-    print('\nHistogram:\n');
+    print('\n  Histogram:');
     print(result.histogram);
   }
 
   if (argResults['percentiles']) {
-    print('Percentiles:\n');
+    print('Percentiles:');
 
-    final format = Formatter(result.percentiles);
-    final longest =
-        result.percentiles.map(format.format).map((s) => s.length).reduce(max);
-    for (var i = 100; i >= 0; i -= 5) {
-      final value = result.percentiles[i];
-      print('$i %'.padLeft(10) + ' | ' + format.format(value).padLeft(longest));
+    var printedPercentiles = <int, double>{};
+    // Instead of 100 and 0 percentiles, which are often crazy outliers,
+    // we show 3-sigma (99.73% confidence) percentiles.
+    printedPercentiles[100] = result.with3StandardDeviations.upper;
+    for (var i = 95; i > 0; i -= 5) {
+      printedPercentiles[i] = result.percentiles[i];
+    }
+    printedPercentiles[0] = result.with3StandardDeviations.lower;
+
+    final formatter = Formatter(printedPercentiles.values.toList());
+    final longest = printedPercentiles.values
+        .map(formatter.format)
+        .map((s) => s.length)
+        .reduce(max);
+    for (final key in printedPercentiles.keys) {
+      final value = printedPercentiles[key];
+      print('${(key == 0 || key == 100 ? '~' : '')}$key %'.padLeft(10) +
+          ' | ' +
+          formatter.format(value).padLeft(longest));
     }
   }
 
