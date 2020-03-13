@@ -1,10 +1,8 @@
-import 'dart:math';
-
 import 'package:t_stats/t_stats.dart';
 import 'package:uncertainty/src/histogram.dart';
 
 class Confidence {
-  final int probability;
+  final num probability;
 
   final double lower;
 
@@ -29,12 +27,14 @@ class Result {
 
   final ProbabilityHistogram histogram;
 
-  const Result(
-      this.statistic, this.percentiles, this.confidences, this.histogram);
+  final Confidence with2StandardDeviations;
 
-  String get simple => '${confidences[95].lower}'
+  const Result(this.statistic, this.with2StandardDeviations, this.percentiles,
+      this.confidences, this.histogram);
+
+  String get simple => '${with2StandardDeviations.lower}'
       '~'
-      '${confidences[95].upper}';
+      '${with2StandardDeviations.upper}';
 
   // TODO: toRange -- uses percentiles to get a range from this result
 

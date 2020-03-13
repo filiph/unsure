@@ -19,6 +19,15 @@ class Calculation {
 
     var stat = Statistic.from(results);
 
+    // https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule
+    const percentage2Standard = 95.45;
+    const padding2Standard = (100 - percentage2Standard) / 2;
+    var with2StandardDeviations = Confidence(
+      95.45,
+      results[(iterations * padding2Standard / 100).floor()],
+      results[(iterations * (100 - padding2Standard) / 100).floor()],
+    );
+
     const percentileCount = 101 /* 0 - 100 */;
     var percentiles = List<double>(percentileCount);
     for (var p = 0; p < percentileCount - 1; p++) {
@@ -30,7 +39,8 @@ class Calculation {
 
     var confidences = _computeConfidences(results);
 
-    return Result(stat, percentiles, confidences, histogram);
+    return Result(
+        stat, with2StandardDeviations, percentiles, confidences, histogram);
   }
 
   List<Confidence> _computeConfidences(List<double> results) {
