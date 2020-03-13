@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
-import 'package:uncertainty/src/formatter.dart';
-import 'package:uncertainty/src/parser.dart';
+import 'package:unsure/src/formatter.dart';
 
 void main() {
   test('1000 and 2000 become 1K and 2K', () {

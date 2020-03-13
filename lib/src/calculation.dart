@@ -1,6 +1,6 @@
 import 'package:t_stats/t_stats.dart';
-import 'package:uncertainty/src/histogram.dart';
-import 'package:uncertainty/src/result.dart';
+import 'package:unsure/src/histogram.dart';
+import 'package:unsure/src/result.dart';
 
 /// A function that can be called repeatedly and it returns a number.
 typedef Formula = double Function();

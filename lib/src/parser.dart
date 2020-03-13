@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:petitparser/petitparser.dart';
-import 'package:uncertainty/src/calculation.dart';
-import 'package:uncertainty/src/range.dart';
+import 'package:unsure/src/calculation.dart';
+import 'package:unsure/src/range.dart';
 
 final numberParser = digit()
     .plus()

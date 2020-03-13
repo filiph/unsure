@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:uncertainty/src/parser.dart';
+import 'package:unsure/src/parser.dart';
 
 void main() {
   test('no range', () {

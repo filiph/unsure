@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:uncertainty/src/formatter.dart';
+import 'package:unsure/src/formatter.dart';
 
 class ProbabilityHistogram {
   static const precision = 2;

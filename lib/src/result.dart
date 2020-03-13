@@ -1,6 +1,6 @@
 import 'package:t_stats/t_stats.dart';
-import 'package:uncertainty/src/formatter.dart';
-import 'package:uncertainty/src/histogram.dart';
+import 'package:unsure/src/formatter.dart';
+import 'package:unsure/src/histogram.dart';
 
 class Confidence {
   final num probability;

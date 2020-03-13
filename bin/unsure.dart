@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:t_stats/t_stats.dart';
-import 'package:uncertainty/src/calculation.dart';
-import 'package:uncertainty/src/parser.dart';
+import 'package:unsure/src/calculation.dart';
+import 'package:unsure/src/parser.dart';
 
 Future<int> main(List<String> args) async {
   // TODO: use package:args for this
