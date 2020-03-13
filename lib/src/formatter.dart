@@ -5,7 +5,7 @@ import 'dart:math';
 final _precisions = <_Precision>[
   _Precision(
     '5B',
-    (n) => _round(n, 1000000000) + 'B',
+    (n) => _divide(n, 1000000000) + 'B',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
@@ -15,7 +15,7 @@ final _precisions = <_Precision>[
   ),
   _Precision(
     '5M',
-    (n) => _round(n, 1000000) + 'M',
+    (n) => _divide(n, 1000000) + 'M',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
@@ -24,12 +24,24 @@ final _precisions = <_Precision>[
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
-    '50K',
-    (n) => _round(n, 1000) + 'K',
+    '52K',
+    (n) => _divide(n, 1000) + 'K',
     (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
-    '324',
+    '350',
+    (n) => _quantize(n, 50),
+  ),
+  _Precision(
+    '340',
+    (n) => _quantize(n, 10),
+  ),
+  _Precision(
+    '345',
+    (n) => _quantize(n, 5),
+  ),
+  _Precision(
+    '343',
     (n) => n.round().toString(),
   ),
   _Precision(
@@ -50,8 +62,16 @@ final _precisions = <_Precision>[
   ),
 ];
 
-String _round(double number, int level) {
-  return (number / level).round().toString();
+/// Returns a string representation of the [number] divided by [divisor].
+/// For example, `_divide(40344, 1000)` becomes `"40"`.
+String _divide(double number, int divisor) {
+  return (number / divisor).round().toString();
+}
+
+/// Returns a string representation of the [number] quantized by [step].
+/// For example, `_quantize(40344, 50)` becomes `"40350"`.
+String _quantize(double number, int step) {
+  return ((number / step).round() * step).toString();
 }
 
 /// This class will figure out the best way to format a set of numbers
