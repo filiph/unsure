@@ -72,7 +72,7 @@ void main() {
     var formatter = Formatter([0.000001, 0.00000002, 5300000000]);
 
     expect(formatter.format(0.000001), '0.000001');
-    expect(formatter.format(0.00000002), '2e-8');
-    expect(formatter.format(5300000000), '5300000000.0');
+    expect(formatter.format(0.00000002), '0.000000');
+    expect(formatter.format(5300000000), '5300000000.000000');
   });
 }
