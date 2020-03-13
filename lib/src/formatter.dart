@@ -60,6 +60,22 @@ final _precisions = <_Precision>[
     '324.3410',
     (n) => n.toStringAsFixed(4),
   ),
+  _Precision(
+    '324.34104',
+    (n) => n.toStringAsFixed(5),
+  ),
+  _Precision(
+    '324.341042',
+    (n) => n.toStringAsFixed(6),
+  ),
+  _Precision(
+    '324.3410423',
+    (n) => n.toStringAsFixed(7),
+  ),
+  _Precision(
+    '324.34104231',
+    (n) => n.toStringAsFixed(8),
+  ),
   // See [Formatter()] for the least desirable precision (`double.toString`).
 ];
 
