@@ -56,8 +56,8 @@ Parser get formulaParser {
 
   // multiplication and addition are left-associative
   builder.group()
-    ..left<String, AstNode>(
-      char('*').trim(),
+    ..left<dynamic, AstNode>(
+      char('*').or(char('x')).or(char('X')).trim(),
       (a, op, b) => MultiplicationNode(a, b),
     )
     ..left<String, AstNode>(
