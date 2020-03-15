@@ -28,7 +28,7 @@ Future<int> main(List<String> args) async {
   final formulaString = argResults.rest.join(' ');
 
   final formula = parseString(formulaString);
-  final calculation = Calculation(formula);
+  final calculation = Calculation(formula.emit);
   final result = calculation.run();
   if (argResults['padding']) {
     print('\n\t${result.simple}\n');

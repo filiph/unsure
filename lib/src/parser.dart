@@ -1,41 +1,29 @@
-import 'dart:math' as math;
-
 import 'package:petitparser/petitparser.dart';
-import 'package:unsure/src/calculation.dart';
+import 'package:unsure/src/ast.dart';
 import 'package:unsure/src/range.dart';
 
-final numberParser = digit()
-    .plus()
-    .seq(char('.').seq(digit().plus()).optional())
-    .flatten()
-    .trim()
-    .map((a) => double.tryParse(a));
+// ignore_for_file: omit_local_variable_types
 
-final rangeGatherer = rangeParser.map<Range>((a) {
-  assert(a.length == 3);
-  return Range(a.first, a.last);
-});
+/// The cached instance of the parser.
+Parser _formulaParser;
 
-// Instantiate all the ranges we'll need, so that we only do this once.
-final rangeParser = numberParser.seq(char('~').trim()).seq(numberParser);
+/// Construct the parser, with caching.
+Parser get formulaParser {
+  if (_formulaParser != null) return _formulaParser;
 
-Formula parseString(String string) {
-  // Gather them from the string, skipping over everything else.
-  final rangesList = rangeGatherer.matchesSkipping(string);
+  final Parser<AstNode> numberParser = digit()
+      .plus()
+      .seq(char('.').seq(digit().plus()).optional())
+      .flatten()
+      .trim()
+      .map((a) => NumberNode(double.tryParse(a)));
 
-  // Put all the ranges in a map, accessible by a string.
-  final ranges = <String, Range>{};
-  for (final range in rangesList) {
-    ranges['${range.minimum}~${range.maximum}'] = range;
-  }
-
-  // Load the range back from our map, and call `.next()` to get a random
-  // number from it.
-  final rangeExecutor = rangeParser.map((a) {
+  final Parser<AstNode> rangeParser =
+      numberParser.seq(char('~').trim()).seq(numberParser).map((a) {
     assert(a.length == 3);
-    final minimum = a.first, maximum = a.last;
-    final range = ranges['$minimum~$maximum'];
-    return range.next();
+    final range =
+        Range((a.first as NumberNode).emit(), (a.last as NumberNode).emit());
+    return RangeNode(range);
   });
 
   // Start the arithmetic parser.
@@ -44,27 +32,54 @@ Formula parseString(String string) {
 
   builder.group()
     // Range is at the top. We give it more importance than anything else.
-    ..primitive(rangeExecutor)
-    ..primitive(numberParser)
-    ..wrapper(char('(').trim(), char(')').trim(), (l, a, r) => a);
+    ..primitive<AstNode>(rangeParser)
+    ..primitive<AstNode>(numberParser)
+    ..wrapper<String, AstNode>(
+      char('(').trim(),
+      char(')').trim(),
+      (l, a, r) => ParensNode(a),
+    );
 
   // negation is a prefix operator
-  builder.group()..prefix(char('-').trim(), (op, a) => -a);
+  builder.group()
+    ..prefix<String, AstNode>(
+      char('-').trim(),
+      (op, a) => NegativeNode(a),
+    );
 
   // power is right-associative
-  builder.group()..right(char('^').trim(), (a, op, b) => math.pow(a, b));
+  builder.group()
+    ..right<String, AstNode>(
+      char('^').trim(),
+      (a, op, b) => MathPowerNode(a, b),
+    );
 
   // multiplication and addition are left-associative
   builder.group()
-    ..left(char('*').trim(), (a, op, b) => a * b)
-    ..left(char('/').trim(), (a, op, b) => a / b);
+    ..left<String, AstNode>(
+      char('*').trim(),
+      (a, op, b) => MultiplicationNode(a, b),
+    )
+    ..left<String, AstNode>(
+      char('/').trim(),
+      (a, op, b) => DivisionNode(a, b),
+    );
   builder.group()
-    ..left(char('+').trim(), (a, op, b) => a + b)
-    ..left(char('-').trim(), (a, op, b) => a - b);
+    ..left<String, AstNode>(
+      char('+').trim(),
+      (a, op, b) => AdditionNode(a, b),
+    )
+    ..left<String, AstNode>(
+      char('-').trim(),
+      (a, op, b) => SubtractionNode(a, b),
+    );
 
-  final parser = builder.build().end();
+  _formulaParser = builder.build().end();
+  return _formulaParser;
+}
 
-  // TODO: instead of parsing every time, return a tree of nodes that
-  //       can execute themselves and emit a value
-  return () => parser.parse(string).value as double;
+FormulaAst parseString(String string) {
+  final result = formulaParser.parse(string);
+
+  return FormulaAst(result.value, result.isSuccess, result.message);
 }
