@@ -13,6 +13,8 @@ class Calculation {
   const Calculation(this.formula, {this.iterations = 1000000});
 
   Result run() {
+    // TODO: count invalid results. If most results are invalid, return
+    //       a non-stochastic result. Test: sqrt(-100~-1) => NaN.
     var results =
         List<double>.generate(iterations, (_) => formula(), growable: false);
     results.sort();
