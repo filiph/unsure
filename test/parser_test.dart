@@ -34,6 +34,12 @@ void main() {
     expect(a, greaterThan(500));
   });
 
+  test('parses Python-style exponentiation', () {
+    var formula = parseString('3**2');
+
+    expect(formula.emit(), 9);
+  });
+
   test('parses sine function of constant', () {
     var formula = parseString('sin(0)');
 

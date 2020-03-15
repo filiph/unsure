@@ -59,8 +59,8 @@ Parser get formulaParser {
 
   // power is right-associative
   builder.group()
-    ..right<String, AstNode>(
-      char('^').trim(),
+    ..right<dynamic, AstNode>(
+      char('^').or(string('**')).trim(),
       (a, op, b) => MathPowerNode(a, b),
     );
 
