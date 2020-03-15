@@ -71,6 +71,41 @@ abstract class MathOperationNode extends AstNode {
   double emit() => compute(a.emit(), b.emit());
 }
 
+abstract class MathFunctionNode extends AstNode {
+  final AstNode a;
+
+  MathFunctionNode(this.a);
+
+  @override
+  bool get isStochastic => a.isStochastic;
+
+  double compute(double a);
+
+  @override
+  double emit() => compute(a.emit());
+}
+
+class SineFunctionNode extends MathFunctionNode {
+  SineFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.sin(a / 180 * math.pi);
+}
+
+class CosineFunctionNode extends MathFunctionNode {
+  CosineFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.cos(a / 180 * math.pi);
+}
+
+class TangentFunctionNode extends MathFunctionNode {
+  TangentFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.tan(a / 180 * math.pi);
+}
+
 class MathPowerNode extends AstNode {
   final AstNode x;
 

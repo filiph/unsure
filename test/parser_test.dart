@@ -33,4 +33,36 @@ void main() {
     var a = formula.emit();
     expect(a, greaterThan(500));
   });
+
+  test('parses sine function of constant', () {
+    var formula = parseString('sin(0)');
+
+    var a = formula.emit();
+    expect(a, equals(0));
+    expect(formula.isStochastic, isFalse);
+  });
+
+  test('parses sine function of a more complicated expression', () {
+    var formula = parseString('sin(1~2 + 4 ^ 1)');
+
+    expect(formula.emit, returnsNormally);
+    expect(formula.isStochastic, isTrue);
+  });
+
+  test('parses sine function followed by something else', () {
+    var formula = parseString('sin(0) * 100');
+
+    expect(formula.emit, returnsNormally);
+    expect(formula.isStochastic, isFalse);
+    expect(formula.emit(), 0);
+  });
+
+
+  test('parses sine function prepended by something else', () {
+    var formula = parseString('100 * sin(0)');
+
+    expect(formula.emit, returnsNormally);
+    expect(formula.isStochastic, isFalse);
+    expect(formula.emit(), 0);
+  });
 }

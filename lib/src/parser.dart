@@ -40,6 +40,14 @@ Parser get formulaParser {
       (l, a, r) => ParensNode(a),
     );
 
+  builder.group()
+    ..wrapper(string('sin(').trim(), char(')').trim(),
+            (l, a, r) => SineFunctionNode(a))
+    ..wrapper(string('cos(').trim(), char(')').trim(),
+            (l, a, r) => CosineFunctionNode(a))
+    ..wrapper(string('tan(').trim(), char(')').trim(),
+            (l, a, r) => TangentFunctionNode(a));
+
   // negation is a prefix operator
   builder.group()
     ..prefix<String, AstNode>(
