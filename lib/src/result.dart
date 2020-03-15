@@ -34,10 +34,13 @@ class Result {
 
   final Confidence with3StandardDeviations;
 
+  final bool hadInvalidValues;
+
   const Result(
     this.statistic,
     this.with2StandardDeviations,
     this.with3StandardDeviations,
+    this.hadInvalidValues,
     this.percentiles,
     this.confidences,
     this.histogram,

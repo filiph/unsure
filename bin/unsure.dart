@@ -49,6 +49,11 @@ Future<int> main(List<String> args) async {
   final result = calculation.run();
   if (argResults['padding']) {
     print('\n\t${result.simple}\n');
+    if (result.hadInvalidValues) {
+      print('Warning: Some of the results were invalid values '
+          '(infinity, not-a-number). These were simply ignored in computing '
+          'the final result.\n');
+    }
   } else {
     print(result.simple);
   }

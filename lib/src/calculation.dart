@@ -17,6 +17,16 @@ class Calculation {
         List<double>.generate(iterations, (_) => formula(), growable: false);
     results.sort();
 
+    var hadInvalidValues = false;
+    if (results.any((r) => r.isNaN || r.isInfinite)) {
+      hadInvalidValues = true;
+      results = List<double>.from(
+          results.where((r) => !r.isNaN && !r.isInfinite),
+          growable: false);
+    }
+
+    var length = results.length;
+
     var stat = Statistic.from(results);
 
     // https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule
@@ -24,22 +34,22 @@ class Calculation {
     const padding2Standard = (100 - percentage2Standard) / 2;
     var with2StandardDeviations = Confidence(
       percentage2Standard,
-      results[(iterations * padding2Standard / 100).floor()],
-      results[(iterations * (100 - padding2Standard) / 100).floor()],
+      results[(length * padding2Standard / 100).floor()],
+      results[(length * (100 - padding2Standard) / 100).floor()],
     );
 
     const percentage3Standard = 99.73;
     const padding3Standard = (100 - percentage3Standard) / 2;
     var with3StandardDeviations = Confidence(
       percentage3Standard,
-      results[(iterations * padding3Standard / 100).floor()],
-      results[(iterations * (100 - padding3Standard) / 100).floor()],
+      results[(length * padding3Standard / 100).floor()],
+      results[(length * (100 - padding3Standard) / 100).floor()],
     );
 
     const percentileCount = 101 /* 0 - 100 */;
     var percentiles = List<double>(percentileCount);
     for (var p = 0; p < percentileCount - 1; p++) {
-      percentiles[p] = results[(iterations * p / 100).floor()];
+      percentiles[p] = results[(length * p / 100).floor()];
     }
     percentiles[100] = results.last;
 
@@ -47,8 +57,8 @@ class Calculation {
 
     var confidences = _computeConfidences(results);
 
-    return Result(
-        stat, with2StandardDeviations, with3StandardDeviations, percentiles, confidences, histogram);
+    return Result(stat, with2StandardDeviations, with3StandardDeviations,
+        hadInvalidValues, percentiles, confidences, histogram);
   }
 
   List<Confidence> _computeConfidences(List<double> results) {
@@ -58,8 +68,8 @@ class Calculation {
       }
 
       var padding = (1 - confidence / 100) / 2;
-      var minimum = results[(iterations * padding).round()];
-      var maximum = results[(iterations * (1 - padding)).round()];
+      var minimum = results[(results.length * padding).round()];
+      var maximum = results[(results.length * (1 - padding)).round()];
 
       return Confidence(confidence, minimum, maximum);
     });
