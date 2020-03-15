@@ -167,6 +167,8 @@ class Formatter {
       var cumulativeError = 0.0;
       representations.clear();
       for (final n in numbers) {
+        if (!n.isFinite) continue;
+
         // ... try the precision on each number ...
         final r = precision.formatFunction(n);
         if (representations.contains(r)) break;
@@ -191,6 +193,16 @@ class Formatter {
   }
 
   String format(double number) {
+    if (number == double.infinity) {
+      return '∞';
+    }
+    if (number == double.negativeInfinity) {
+      return '-∞';
+    }
+    if (number.isNaN) {
+      return 'Not-a-Number';
+    }
+
     return _precision.formatFunction(number);
   }
 }
