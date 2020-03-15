@@ -17,6 +17,13 @@ void main() {
     expect(formula.emit(), 11);
   });
 
+  test('parses first - (minus) correctly', () {
+    var formula = parseString('-100~-10');
+
+    expect(formula.isStochastic, isTrue);
+    expect(formula.emit(), isNegative);
+  });
+
   test('range produces different numbers', () {
     var formula = parseString('1~2');
 

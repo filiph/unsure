@@ -18,21 +18,11 @@ Parser get formulaParser {
       .trim()
       .map((a) => NumberNode(double.tryParse(a)));
 
-  final Parser<AstNode> rangeParser =
-      numberParser.seq(char('~').trim()).seq(numberParser).map((a) {
-    assert(a.length == 3);
-    final range =
-        Range((a.first as NumberNode).emit(), (a.last as NumberNode).emit());
-    return RangeNode(range);
-  });
-
   // Start the arithmetic parser.
   // The following is taken from `package:petitparser` README.
   final builder = ExpressionBuilder();
 
   builder.group()
-    // Range is at the top. We give it more importance than anything else.
-    ..primitive<AstNode>(rangeParser)
     ..primitive<AstNode>(numberParser)
     ..wrapper<String, AstNode>(
       char('(').trim(),
@@ -40,22 +30,32 @@ Parser get formulaParser {
       (l, a, r) => ParensNode(a),
     );
 
-  builder.group()
-    ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
-            (l, a, r) => SquareRootFunctionNode(a))
-    ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
-            (l, a, r) => SineFunctionNode(a))
-    ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
-            (l, a, r) => CosineFunctionNode(a))
-    ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
-            (l, a, r) => TangentFunctionNode(a));
-
   // negation is a prefix operator
   builder.group()
     ..prefix<String, AstNode>(
       char('-').trim(),
       (op, a) => NegativeNode(a),
     );
+
+  // The range operator is left associative and very high-priority.
+  builder.group()
+    ..left(char('~').trim(), (a, op, b) {
+      // TODO: actually throw when a or b are not stochastic
+      assert(!(a as AstNode).isStochastic);
+      assert(!(b as AstNode).isStochastic);
+      final range = Range(a.emit(), b.emit());
+      return RangeNode(range);
+    });
+
+  builder.group()
+    ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
+        (l, a, r) => SquareRootFunctionNode(a))
+    ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
+        (l, a, r) => SineFunctionNode(a))
+    ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
+        (l, a, r) => CosineFunctionNode(a))
+    ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
+        (l, a, r) => TangentFunctionNode(a));
 
   // power is right-associative
   builder.group()

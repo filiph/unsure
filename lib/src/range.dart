@@ -17,7 +17,8 @@ class Range {
   Range(this.minimum, this.maximum, {Random random})
       : assert(minimum != null),
         assert(maximum != null),
-        assert(minimum < maximum, 'Minimum must be lower than maximum'),
+        assert(minimum < maximum, 'Minimum must be lower than maximum: '
+            'minimumum=$minimum, maximum=$maximum'),
         // In normal distribution, the mean is simply half-way between
         // the minimum and the maximum.
         mean = minimum + (maximum - minimum) / 2,
