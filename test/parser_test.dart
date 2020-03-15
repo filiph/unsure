@@ -57,12 +57,19 @@ void main() {
     expect(formula.emit(), 0);
   });
 
-
   test('parses sine function prepended by something else', () {
     var formula = parseString('100 * sin(0)');
 
     expect(formula.emit, returnsNormally);
     expect(formula.isStochastic, isFalse);
     expect(formula.emit(), 0);
+  });
+
+  test('parses sqrt', () {
+    var formula = parseString('sqrt(4)');
+
+    expect(formula.emit, returnsNormally);
+    expect(formula.isStochastic, isFalse);
+    expect(formula.emit(), 2);
   });
 }

@@ -106,6 +106,13 @@ class TangentFunctionNode extends MathFunctionNode {
   double compute(double a) => math.tan(a / 180 * math.pi);
 }
 
+class SquareRootFunctionNode extends MathFunctionNode {
+  SquareRootFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.sqrt(a);
+}
+
 class MathPowerNode extends AstNode {
   final AstNode x;
 

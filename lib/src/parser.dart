@@ -41,11 +41,13 @@ Parser get formulaParser {
     );
 
   builder.group()
-    ..wrapper(string('sin(').trim(), char(')').trim(),
+    ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
+            (l, a, r) => SquareRootFunctionNode(a))
+    ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
             (l, a, r) => SineFunctionNode(a))
-    ..wrapper(string('cos(').trim(), char(')').trim(),
+    ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
             (l, a, r) => CosineFunctionNode(a))
-    ..wrapper(string('tan(').trim(), char(')').trim(),
+    ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
             (l, a, r) => TangentFunctionNode(a));
 
   // negation is a prefix operator
