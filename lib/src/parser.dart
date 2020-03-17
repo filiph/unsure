@@ -91,5 +91,5 @@ Parser get formulaParser {
 FormulaAst parseString(String string) {
   final result = formulaParser.parse(string);
 
-  return FormulaAst(result.value, result.isSuccess, result.message);
+  return FormulaAst(result.value, result.isFailure, result.message);
 }
