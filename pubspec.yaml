@@ -7,8 +7,8 @@ environment:
   sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
-  args: ^1.5.3
-  petitparser: ^3.0.1
+  args: ^1.5.2
+  petitparser: '>=2.4.0 <4.0.0'
   t_stats: ^2.1.0
 
 dev_dependencies:
