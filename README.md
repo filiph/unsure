@@ -1,8 +1,9 @@
 # Unsure Calculator
 
-Just a stub for now. Please go to 
+If you want to run the Unsure Calculator from source, this repository
+is for you. Otherwise, please go to 
 [filiph.github.io/unsure](https://filiph.github.io/unsure) to learn more
-about the Unsure Calculator.
+about the Unsure Calculator itself.
 
 ### Web example
 
