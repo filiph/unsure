@@ -4,6 +4,17 @@ Just a stub for now. Please go to
 [filiph.github.io/unsure](https://filiph.github.io/unsure) to learn more
 about the Unsure Calculator.
 
+### Web example
+
+The web calculator is in `example/`. To run it from source:
+
+    $ cd example/
+    $ webdev serve --release
+
+Now, navigating to `http://localhost:8080` will open the page. Changing
+code in the project will trigger a rebuild. The `--release` flag is important,
+because otherwise the web worker won't work.
+
 ### Use as a binary
 
 You can compile the binary buy running `dart2native bin/unsure.dart`. Then,

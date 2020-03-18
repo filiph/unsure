@@ -1,0 +1,68 @@
+<div class="user-input">
+    <input type="text"
+           [(ngModel)]="formula"
+           [disabled]="isComputing"
+           (keyup.enter)="startComputation()">
+    <br>
+    <br>
+    <table class="keypad">
+        <tr>
+            <td><button (click)="add('7')" [disabled]="isComputing">7</button></td>
+            <td><button (click)="add('8')" [disabled]="isComputing">8</button></td>
+            <td><button (click)="add('9')" [disabled]="isComputing">9</button></td>
+            <td><button (click)="add('/')" [disabled]="isComputing">/</button></td>
+            <td><button (click)="delete()" [disabled]="isComputing">&larr;</button></td>
+        </tr>
+        <tr>
+            <td><button (click)="add('4')" [disabled]="isComputing">4</button></td>
+            <td><button (click)="add('5')" [disabled]="isComputing">5</button></td>
+            <td><button (click)="add('6')" [disabled]="isComputing">6</button></td>
+            <td><button (click)="add('x')" [disabled]="isComputing">x</button></td>
+            <td><button (click)="add('~')" [disabled]="isComputing">~</button></td>
+        </tr>
+        <tr>
+            <td><button (click)="add('1')" [disabled]="isComputing">1</button></td>
+            <td><button (click)="add('2')" [disabled]="isComputing">2</button></td>
+            <td><button (click)="add('3')" [disabled]="isComputing">3</button></td>
+            <td><button (click)="add('-')" [disabled]="isComputing">-</button></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><button (click)="add('0')" [disabled]="isComputing">0</button></td>
+            <td><button (click)="add('.')" [disabled]="isComputing">.</button></td>
+            <td></td>
+            <td><button (click)="add('+')" [disabled]="isComputing">+</button></td>
+            <td><button (click)="startComputation()"
+                        [disabled]="isComputing">=</button></td>
+        </tr>
+    </table>
+</div>
+
+<div class="calculator-output" [ngClass]="isComputing ? 'grayout' : ''">
+    <p *ngIf="simpleResult.isNotEmpty" class="result">{{simpleResult}}</p>
+    <p *ngIf="note.isNotEmpty" class="note">{{note}}</p>
+
+    <div *ngIf="histogram.isNotEmpty">
+        <p>
+            <a *ngIf="showHistogram" (click)="showHistogram = false">
+                Histogram (<span>hide</span>)
+            </a>
+            <a *ngIf="!showHistogram" (click)="showHistogram = true">
+                Histogram (<span>show</span>)
+            </a>
+        </p>
+        <pre *ngIf="showHistogram" class="histogram">{{histogram}}</pre>
+    </div>
+
+    <div *ngIf="percentiles.isNotEmpty">
+        <p>
+            <a *ngIf="showPercentiles" (click)="showPercentiles = false">
+                Percentiles (<span>hide</span>)
+            </a>
+            <a *ngIf="!showPercentiles" (click)="showPercentiles = true">
+                Percentiles (<span>show</span>)
+            </a>
+        </p>
+        <pre *ngIf="showPercentiles" class="percentiles">{{percentiles}}</pre>
+    </div>
+</div>

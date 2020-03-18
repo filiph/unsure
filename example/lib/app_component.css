@@ -1,0 +1,58 @@
+:host {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user-input {
+    padding-right: 3em;
+    padding-bottom: 3em;
+}
+
+input[type="text"] {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: x-large;
+    margin: 0.2em;
+    padding: 0.2em;
+    border: 1px solid gray;
+}
+
+input[type="button"], button {
+    font-size: large;
+}
+
+.keypad button {
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.calculator-output {
+
+}
+
+.grayout {
+    color: gray;
+}
+
+.result {
+    font-family: 'Anonymous Pro', monospace;
+    margin-top: 0;
+    font-size: xx-large;
+}
+
+.note {
+    max-width: 16em;
+    padding-bottom: 2em;
+}
+
+.calculator-output a {
+    cursor: pointer;
+}
+
+.calculator-output a span {
+    color: blue;
+}
+
+pre {
+    font-size: 0.9em;
+    font-family: 'Anonymous Pro', monospace;
+}
