@@ -12,8 +12,8 @@ input[type="text"] {
     font-family: 'Anonymous Pro', monospace;
     font-size: x-large;
     margin: 0.2em;
-    padding: 0.2em;
-    border: 1px solid gray;
+    padding: 0.2em 0.4em;
+    border: 1px dashed gray;
 }
 
 input[type="button"], button {
@@ -40,6 +40,7 @@ input[type="button"], button {
 }
 
 .note {
+    margin-top: 0;
     max-width: 16em;
     padding-bottom: 2em;
 }

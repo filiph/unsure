@@ -30,7 +30,7 @@ class AppComponent implements OnInit {
 
   bool isComputing = false;
 
-  String note = 'Write a formula and hit Enter (or press =).';
+  String note = 'Write a formula and hit Enter, or press =.';
 
   String percentiles = '';
 
@@ -71,7 +71,7 @@ class AppComponent implements OnInit {
       percentiles = result.percentiles;
       note = '';
     } else if (result is NonStochasticResultMessage) {
-      note = 'Well, that was easy. Try to make some inputs a bit more unsure, '
+      note = 'Try to make some inputs a bit more unsure, '
           'such as writing 4~6 instead of 4.';
       histogram = '';
       percentiles = '';
