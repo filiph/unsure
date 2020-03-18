@@ -15,6 +15,15 @@ Now, navigating to `http://localhost:8080` will open the page. Changing
 code in the project will trigger a rebuild. The `--release` flag is important,
 because otherwise the web worker won't work.
 
+To publish the example to 
+[filiph.github.io/unsure](https://filiph.github.io/unsure), do the following:
+
+1. Install peanut (only once): `pub global activate peanut`
+2. Go to the example directory: `cd example`
+3. Run peanut: `peanut`
+4. Push the newly updated `gh-pages` branch to github: 
+   `git push origin --set-upstream gh-pages`
+
 ### Use as a binary
 
 You can compile the binary buy running `dart2native bin/unsure.dart`. Then,
