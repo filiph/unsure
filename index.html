@@ -5,8 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="favicon.png">
     <script defer src="main.dart.js"></script>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+
+    <meta property="og:title" content="Unsure Calculator">
+    <meta property="og:url" content="https://filiph.github.io/unsure/">
+    <meta property="og:description" content="The Unsure Calculator lets you calculate with numbers you’re not sure about.">
+    <meta property="og:image" content="https://filiph.github.io/unsure//images/screenshot.png">
+
   </head>
   <body>
     <h1>Unsure Calculator</h1>
@@ -14,16 +22,19 @@
 
     <h2>Calculate with numbers you’re not sure about</h2>
     <p>Hi, I'm Filip, and I'd like to introduce to you a prototype of an uncertainty calculator.</p>
-    <p>Statistics are scary, but they don't need to be. If you allow me to simplify, statistics is just saying: I'm not certain about these numbers, but I would still like to reason about them. Turns out we're unsure about a lot in our lives, but we can't just throw our arms in the air and say, <em>well, I'm not a statistician</em>.</p>
+    <p>Statistics are scary, but they don't need to be. If you allow me to simplify, the field of statistics is just saying: <em>I'm not certain about these numbers, but I would still like to reason about them.</em> Turns out we're unsure about a lot in our lives, but we can't just throw our arms in the air and say, <em>well, I'm not a statistician</em>.</p>
 
     <h2>Filip’s imperfect uncertainty notation</h2>
-    <p>The idea is simple: apart from regular numbers (like <code>4</code>, <code>3.14</code> or <code>43942</code>), you can also input <em>ranges</em> (like <code>4~6</code>, <code>3.1~3.2</code> or <code>40000~45000</code>). The character between the two extremes of the range is a tilde (<code>~</code>), a little wave symbol. You can find it on most keyboards, but for convenience, I also included it in the keypad above.</p>
-    <p>The range notation says this to the calculator: <em>I am not sure about the exact number here, but I am 95% sure it's somewhere in this range.</em></p>
-    <p>That's it. I thought long and hard about this, and I got to the conclusion that simplicity is key. Yes, we could have notations for different probability distributions (range is a normal distribution), for different confidence levels, for truncations, for covariance, and so on. But that would also make it harder to understand. My assumption is that, if you're already cozy enough with things like confidence levels, you'll want to use something more sophisticated anyway. Here, we're interested in unlocking the power of statistics to a broad audience.</p>
+    <p>The idea is simple: apart from regular numbers (like <code>4</code>, <code>3.14</code> or <code>43942</code>), you can also input <em>ranges</em> (like <code>4~6</code>, <code>3.1~3.2</code> or <code>40000~45000</code>). The character between the two extremes of the <em>range</em> is a tilde (<code>~</code>), a little wave symbol. You can find it on most keyboards, but for convenience, I also included it in the keypad above.</p>
+    <p>The <em>range</em> notation says the following to the calculator: <em>I am not sure about the exact number here, but I am 95% sure it's somewhere in this range.</em></p>
+    <p>That's it. I thought long and hard about this, and I got to the conclusion that simplicity is key. Yes, we could have notations for different probability distributions, for different confidence levels, for truncations, for covariance, and so on. But that would also make it harder to understand. My assumption is that, if you're already cozy enough with things like confidence levels, you'll want to use something more sophisticated anyway. Here, we're interested in unlocking the power of statistics to a broad audience.</p>
     <p>Reading the notation is easy: when you see <code>10~15</code>, you say: "ten to fifteen".</p>
 
     <h2>Statistics for the rest of us</h2>
-    <p>People short-circuit when they encounter uncertainty. <em>"Well, this is not certain, but that other thing also isn't, so it doesn't matter."</em> It does! <em>"Well, I don't know this number exactly, so I'll just pick the first number that seems plausible and calculate with that."</em> Don't!</p>
+    <p>People short-circuit when they encounter uncertainty. <em>"Well, this is not certain, but that other thing also isn't, so it doesn't matter."</em></p>
+    <p>It often does!</p>
+    <p><em>"Well, I don't know this number exactly, so I'll just pick the first number that seems plausible and calculate with that."</em></p>
+    <p>Please don't! Our brains like the simplicity of single numbers, simple answers, but it's a trap. See below.</p>
 
     <h2>A simple example</h2>
     <p>Let's say I'm contemplating buying a dishwasher. It's a lot of money, so I'd like to have an idea of how much time this thing will actually save me.</p>
@@ -34,20 +45,30 @@
     <img src="images/dishwasher-sample2.png">
     <p>That gives me <code>70~240</code>. At least 70 hours. At most 240 hours. Is that enough to account for the expenditure and the headache of putting a new machine in our small kitchen?</p>
     <p>I could go on with my little calculation (adding expected price of the dishwasher, expected cost of the kitchen remodel, and so on), but I think you get the idea.</p>
-    <p>What's cool is that instead of a single guess number, I have a range. Imagine if I didn't use ranges at all, and instead picked a single value for each. Now I'd have something like "180 hours saved", and I'd wonder if that means a dishwasher will save me something between 170 hours a 190 hours, or something between 2 hours and 10 thousand hours.</p>
-    <p>Not only that, I also have a probability distribution (in this case, the distribution is skewed towards the lower end) and percentiles. From percentiles alone, I can say things like: <em>"I'm 80% sure that the dishwasher will save me more than 108 hours."</em></p>
+    <p>What's cool is that instead of a single number, I have a <em>range</em>. Imagine if I didn't use ranges at all, and instead picked a single value for each aspect of my little calculation. Now I'd have something like "180 hours saved", and I'd wonder if that means a dishwasher will save me something between 170 hours a 190 hours, or something between 2 hours and 10 thousand hours. With a single number, you don't get that range &mdash; and that range can be extremely important.</p>
+    <p>There's a piece of monologue in a Czech theatrical comedy that I'm quite fond of, and it goes something like this: “According to our carbon dating analysis, this letter was written on January 21, 1842, plus-minus two thousand years.”</p>
+    <p>With the Unsure Calculator, I get a probability distribution and percentiles. From percentiles alone, I can say things like: <em>"I'm 80% sure that the dishwasher will save me more than 108 hours."</em></p>
 
-    <h2>Other examples</h2>
-    <p>XXX START HERE</p>
+    <h2>Other use cases</h2>
+    <p>Here are some ideas of how to use this calculator and its notation.</p>
+    <ul>
+      <li>Estimate future income with uncertain money per month, length of a gig, and tax rate. For example: <code>1000~1500 x 10~12 x (30~50 / 100)</code></li>
+      <li>Estimate total return of an investment account. Both the interest rate and length of investing is unsure. For example: <code>5000 x (-2~5 / 100) x 5~10</code></li>
+      <li>Probability of dying from a pandemic, given an uncertain morbidity rate (how many people get sick) and mortality rate (how many infected people die). For example: <code>(10~30 / 100) * (0.1~1.0 / 100) * 100</code></li>
+      <li>Estimate the height of a skyscraper, given an uncertain distance from its base, and an uncertain angle in which we see the top of it. For example: <code>100 x tan(70 ~ 80)</code></li>
+      <li>Estimate return on investment, given an uncertain number of views, uncertain click through rate, uncertain conversion rate, and uncertain spend. For example: <code>1000000 x (2~3 / 100) x (3~5 / 100) x (10~15)</code></li>
+      <li>Fermi calculations. For example, the estimate of the number of civilizations in our galaxy with which communication might be possible (known as the Drake equation): <code>1.5~3 x 0.9~1.0 x 0.1~0.4 x 0.1~1.0 x 0.1~1.0 x 0.1~0.2 x 304~10000</code></li>
+    </ul>
 
     <h2>Available functions</h2>
     <p>In the keypad above, you will only find <code>+</code>, <code>-</code>, <code>x</code> and <code>/</code>. But the calculator supports more than that, even in this early stage. You can calculate <code>2~3 ^ 4</code> (two to three, to the power of four), <code>sqrt(10~12)</code> (square root of ten to twelve) or <code>sin(90~95)</code> (sine of ninety to ninety five degrees).</p>
 
     <h2>Limitations</h2>
-    <p>This is a prototype. You should expect breakages. For example, as of this writing, trying to compute a square root of a negative range (<code>sqrt(-100~-50)</code>) will break the calculator.</p>
+    <p>This is a prototype. You should expect breakages. For example, as of this writing, trying to compute a square root of a negative <em>range</em> (<code>sqrt(-100~-50)</code>) will break the calculator.</p>
     <p>The formula parser is brittle and gives unhelpful error messages.</p>
     <p>The computation is quite slow. In order to stay as flexible as possible, I'm using the Monte Carlo method. Which means the calculator is running about 250K AST-based computations for every calculation you put forth.</p>
     <p>The UI is ugly, to say the least.</p>
+    <p><em>Range</em> is always a normal distribution, with the lower number being two standard deviations below the mean, and the upper number two standard deviations above. Nothing more fancier is possible, in terms of input probability distributions.</p>
     <p>And of course, this is not a statistician's tool. Use the Unsure Calculator for back-of-a-napkin calculations. For anything more involved, use one of the free or paid statistical tools, a full programming environment, or hire a statistician.</p>
     <p>I hope some people will find this tool useful, despite the limitations and despite its spartan design.</p>
 

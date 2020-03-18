@@ -6676,7 +6676,7 @@ a6.n(m)
 t=H.d(T.D(b4,m,b0),"$iS")
 a6.be=t
 a6.t(t)
-T.L(a6.be,"\u2190")
+T.L(a6.be,"\u232b")
 l=T.D(b4,s,a8)
 a6.n(l)
 k=T.D(b4,l,a9)
