@@ -4,6 +4,15 @@ Just a stub for now. Please go to
 [filiph.github.io/unsure](https://filiph.github.io/unsure) to learn more
 about the Unsure Calculator.
 
+### Use as a binary
+
+You can compile the binary buy running `dart2native bin/unsure.dart`. Then,
+call the binary with a formula, like this:
+
+    $ ./unsure "10~20 * 42"
+    
+To get help, run `./unsure --help`.
+
 ### Use as a package
 
 Apart from that online tool, this is also a (beginning of a) package. 
