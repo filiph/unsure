@@ -35,3 +35,6 @@ doc/api/
 
 # File-based project format
 *.iws
+
+# Mac
+.DS_Store
