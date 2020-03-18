@@ -32,6 +32,13 @@ abstract class AstNode {
   double emit();
 }
 
+class CosineFunctionNode extends MathFunctionNode {
+  CosineFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.cos(a / 180 * math.pi);
+}
+
 class DivisionNode extends MathOperationNode {
   DivisionNode(AstNode a, AstNode b) : super(a, b);
 
@@ -46,29 +53,18 @@ class FormulaAst implements AstNode {
 
   final String failureMessage;
 
-  const FormulaAst(this.rootNode, this.wasFailure, this.failureMessage);
+  final String failureBuffer;
+
+  final int failurePosition;
+
+  const FormulaAst(this.rootNode, this.wasFailure, this.failureMessage,
+      this.failureBuffer, this.failurePosition);
 
   @override
   bool get isStochastic => rootNode.isStochastic;
 
   @override
   double emit() => rootNode.emit();
-}
-
-abstract class MathOperationNode extends AstNode {
-  final AstNode a;
-
-  final AstNode b;
-
-  MathOperationNode(this.a, this.b);
-
-  @override
-  bool get isStochastic => a.isStochastic || b.isStochastic;
-
-  double compute(double a, double b);
-
-  @override
-  double emit() => compute(a.emit(), b.emit());
 }
 
 abstract class MathFunctionNode extends AstNode {
@@ -85,32 +81,20 @@ abstract class MathFunctionNode extends AstNode {
   double emit() => compute(a.emit());
 }
 
-class SineFunctionNode extends MathFunctionNode {
-  SineFunctionNode(AstNode a) : super(a);
+abstract class MathOperationNode extends AstNode {
+  final AstNode a;
+
+  final AstNode b;
+
+  MathOperationNode(this.a, this.b);
 
   @override
-  double compute(double a) => math.sin(a / 180 * math.pi);
-}
+  bool get isStochastic => a.isStochastic || b.isStochastic;
 
-class CosineFunctionNode extends MathFunctionNode {
-  CosineFunctionNode(AstNode a) : super(a);
+  double compute(double a, double b);
 
   @override
-  double compute(double a) => math.cos(a / 180 * math.pi);
-}
-
-class TangentFunctionNode extends MathFunctionNode {
-  TangentFunctionNode(AstNode a) : super(a);
-
-  @override
-  double compute(double a) => math.tan(a / 180 * math.pi);
-}
-
-class SquareRootFunctionNode extends MathFunctionNode {
-  SquareRootFunctionNode(AstNode a) : super(a);
-
-  @override
-  double compute(double a) => math.sqrt(a);
+  double emit() => compute(a.emit(), b.emit());
 }
 
 class MathPowerNode extends AstNode {
@@ -183,9 +167,30 @@ class RangeNode extends AstNode {
   double emit() => range.next();
 }
 
+class SineFunctionNode extends MathFunctionNode {
+  SineFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.sin(a / 180 * math.pi);
+}
+
+class SquareRootFunctionNode extends MathFunctionNode {
+  SquareRootFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.sqrt(a);
+}
+
 class SubtractionNode extends MathOperationNode {
   SubtractionNode(AstNode a, AstNode b) : super(a, b);
 
   @override
   double compute(double a, double b) => a - b;
+}
+
+class TangentFunctionNode extends MathFunctionNode {
+  TangentFunctionNode(AstNode a) : super(a);
+
+  @override
+  double compute(double a) => math.tan(a / 180 * math.pi);
 }
