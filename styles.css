@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Averia+Serif+Libre|Lato|Anonymous+Pro&display=swap');
+
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 5vw;
+}
+
+* {
+  font-family: Lato, Roboto, Helvetica, Arial, sans-serif;
+}
+
+unsure-calc {
+  min-height: 10em;
+  margin-bottom: 5em;
+}
+
+h1, h2 {
+  font-family: 'Averia Serif Libre', cursive;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+  margin-top: 2em;
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+code {
+  font-size: 1.1em;
+  font-family: 'Anonymous Pro', monospace;
+  background: #eee;
+  padding: 0.2em 0.3em;
+}
+
+img {
+  max-width: 100%;
+}
+
+.signage {
+  margin-top: 3em;
+  margin-bottom: 10em;
+  text-align: right;
+}
