@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Unsure Calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <script defer src="main.dart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preload" href="worker.dart.js" as="script">
 
     <link rel="icon" type="image/png" href="favicon.png">
 
     <meta property="og:title" content="Unsure Calculator">
     <meta property="og:url" content="https://filiph.github.io/unsure/">
-    <meta property="og:description" content="The Unsure Calculator lets you calculate with numbers you’re not sure about.">
+    <meta property="og:description" content="The Unsure Calculator is an online tool that lets you calculate with numbers you’re not sure about.">
     <meta property="og:image" content="https://filiph.github.io/unsure/images/screenshot.png">
 
+    <meta name="Description" content="The Unsure Calculator is an online tool that lets you calculate with numbers you’re not sure about.">
+
   </head>
-  <body lang="en">
+  <body>
     <h1>Unsure Calculator</h1>
     <unsure-calc>Loading...</unsure-calc>
 
@@ -40,7 +44,7 @@
     <h2>A practical example</h2>
     <p>This example is inspired by a true story.</p>
     <p>It is the year 2015 and our family has a dilemma. I get a chance to apply for a job in a different part of the world. My wife and I agree it would be pretty sweet to try living somewhere else for a few years, and we welcome the learning opportunity. On the other hand, we also have a new mortgage for our small flat in the city, and a one year old baby.</p>
-    <img src="images/move.png" alt="An illustration of our family considering a move to a different place.">
+    <img src="images/move.png" alt="An illustration of our family considering a move to a different place." loading="lazy">
     <p>I would like to at least know if it's a good move, financially. Will we be losing money? If so, how quickly?</p>
     <p>The problem is, nothing is certain. The company won't tell us the salary until <em>after</em> we go through most of the steps. I ask friends and random people on the internet about the cost of living in the area, but I get wildly different numbers. Even the tax rate isn't a simple percentage, but "depends".</p>
     <p>At first, I go with a simple spreadsheet calculation. I pick a reasonably conservative number for each variable and do the math. $1,500 salary, 40% tax rate, $650 rent, $150 food, $30 baby stuff, $20 transportation.</p>
@@ -49,14 +53,14 @@
     <p>It looks like we'll be making +$50 each month, assuming we don't spend on anything extra. On one hand, that's cool: we're not considering the move to get rich. On the other hand, it's a little scary. What if I wasn't conservative enough with some of the numbers, and we realize too late that we're bankrupting our family?</p>
     <p>I mean, it's good to know that <em>one potential result</em> is +$50 per month. But what about the other possible results?</p>
     <p>There's a piece of monologue in a Czech theatrical comedy that I'm quite fond of, and it goes something like this: “According to our carbon dating analysis, this letter was written on January 21, 1842, plus-minus two thousand years.”</p>
-    <img src="images/shrug.png" alt="An illustration of a big shrug.">
+    <img src="images/shrug.png" alt="An illustration of a big shrug." loading="lazy">
     <p>Unsure Calculator to the rescue!</p>
     <p>It seems we have quite a few values in our little formula that are actually <em>ranges</em>. I'm not sure about the exact value, but I <em>am</em> pretty sure about the general range into which each value will fall.</p>
     <p>Let's redo the calculation with ranges:</p>
     <p><code>1400~1700 * 0.55~0.65 - 600~700 - 100~200 - 30 - 20 = -60~220</code></p>
     <p>Now, I am 95% sure the real value of each item falls into the range. That means I am also 95% sure the real balance will fall into the -$60 to +$220 range. This is much more helpful than the one number before. For one thing, I now know that we could very well be losing money.</p>
     <p>I also have the probability distribution and the percentiles.</p>
-    <img src="images/histogram-percentiles.png" alt="An image showing a histogram and percentiles for the computation above.">
+    <img src="images/histogram-percentiles.png" alt="An image showing a histogram and percentiles for the computation above." loading="lazy">
     <p>The percentiles tell me that there's a 10% chance that our monthly balance will be -$8 or worse. (Because I see -$8 as the 10th percentile, which means that 10% of the outcomes will be lower than -$8. Conversely, 90% of the outcomes will be higher than -$8.) Now, our family can do a better informed decision. Are we willing to risk the 10% chance that we'll be losing money by this move? What about the 5% risk that we'll be losing $33 or more per month?</p>
     <p>The answer to that will depend on the family and the situation. Without a kid and a mortgage, I was way more likely to take risks than I am today. On the other hand, if we didn't have backup plans, I'd be a lot more wary of the 10% chance.</p>
     <p>In the end, we did it. And, in our case, it happened to pay back. The end.</p>
@@ -66,17 +70,17 @@
     <p>There is a famous formula in astrophysics called the Drake equation. It is an estimate of the number of civilizations in our galaxy with which communication might be possible.</p>
     <p>For example, if we listen to radio signals from the stars, should we expect hundreds of civilizations trying to reach each other in our galaxy? Or is it more like thousands? Or zero? Is it realistic to expect we're alone here?</p>
     <p>The Drake equation is actually very simple: it's just a multiplication of 7 numbers:</p>
-    <img src="images/drake-equation.png" alt="N = R* x fp x ne * fl * fi * fc * L">
+    <img src="images/drake-equation.png" alt="N = R* x fp x ne * fl * fi * fc * L" loading="lazy">
     <p>The original formula (written in 1961 by one Frank Drake) and its values went like this: in our galaxy, there is one star formed per year (<em>R<sub>*</sub></em>), of which one fifth (<em>f<sub>p</sub></em>) have about 3 planets (<em>n<sub>e</sub></em>), of which 100% (<em>f<sub>l</sub></em>) will eventually develop life, of which 100% (<em>f<sub>i</sub></em>) will eventually become intelligent, of which 10% (<em>f<sub>c</sub></em>) will be able to communicate, and will last 1 million years (<em>L</em>).</p>
     <p>If you put all these numbers together, you'll get to the number 60,000. There should be 60 thousand civilization at any one time, trying to communicate with each other across the galaxy. Where are they?</p>
     <p>As you might expect, there's been a lot of discussion about this equation since 1961. The estimated values for each of the parameters vary wildly between astrophysists.</p>
     <p>So, let's get the latest estimates, and put them into <em>ranges</em>. This gives us the following:</p>
     <p><code>1.5~3 x 0.9~1.0 x 0.1~0.4 x 0.1~1.0 x 0.1~1.0 x 0.1~0.2 x 304~10000</code></p>
     <p>If we put it into the Unsure Calculator, we get this:</p>
-    <img src="images/drake-results.png" alt="Results from the calculator, showing 0~450 and a histogram.">
+    <img src="images/drake-results.png" alt="Results from the calculator, showing 0~450 and a histogram." loading="lazy">
     <p>So, we can expect anywhere between 0 and 450 civilizations. And the probability skews to the lower end (the histogram is wider towards the bottom).</p>
     <p>Note: If you're curious why there is a negative number (`-5`) in the histogram, that's just an inevitable downside of the simplicity of the Unsure Calculator. Without further knowledge, the calculator cannot know that a negative number is impossible (in other words, you can't have -5 civilizations, for example).</p>
-    <img src="images/alien.png" alt="An image of an alien and 0~450 next to it.">
+    <img src="images/alien.png" alt="An image of an alien and 0~450 next to it." loading="lazy">
 
     <h2>Other use cases</h2>
     <p>Here are some ideas of how to use this calculator and its notation.</p>
