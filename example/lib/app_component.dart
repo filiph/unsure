@@ -16,7 +16,7 @@ import 'package:unsure_angular_dart/unsure_result_message.dart';
   ],
 )
 class AppComponent implements OnInit {
-  String formula = '4~6 x 10';
+  String formula = '100 / 4~6';
 
   DorkerWorker _worker;
 
