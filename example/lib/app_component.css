@@ -1,23 +1,25 @@
-:host {
+.keypad-and-results {
     display: flex;
     flex-wrap: wrap;
-}
-
-.user-input {
-    padding-right: 3em;
-    padding-bottom: 3em;
 }
 
 input[type="text"] {
     font-family: 'Anonymous Pro', monospace;
     font-size: x-large;
-    margin: 0.2em;
-    padding: 0.2em 0.4em;
+    width: 90%;
+    margin: 0.6em 0.2em;
+    padding: 0.4em 0.6em;
     border: 1px dashed gray;
 }
 
 input[type="button"], button {
+    font-family: 'Anonymous Pro', monospace;
     font-size: large;
+}
+
+.keypad {
+    padding-right: 3em;
+    padding-bottom: 3em;
 }
 
 .keypad button {
@@ -26,7 +28,10 @@ input[type="button"], button {
 }
 
 .calculator-output {
+}
 
+.calculator-output p, .calculator-output p a {
+    font-family: 'Anonymous Pro', monospace;
 }
 
 .grayout {
@@ -36,7 +41,7 @@ input[type="button"], button {
 .result {
     font-family: 'Anonymous Pro', monospace;
     margin-top: 0;
-    font-size: xx-large;
+    font-size: 300%;
 }
 
 .note {
