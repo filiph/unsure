@@ -38,6 +38,11 @@ input[type="button"], button {
     color: gray;
 }
 
+.loader {
+    margin-top: 0.2em;
+    margin-bottom: 2em;
+}
+
 .result {
     font-family: 'Anonymous Pro', monospace;
     margin-top: 0;

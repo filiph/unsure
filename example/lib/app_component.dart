@@ -1,7 +1,6 @@
 import 'dart:html';
 
 import 'package:angular/angular.dart';
-import 'package:angular_forms/angular_forms.dart';
 import 'package:dorker/dorker.dart';
 import 'package:unsure_angular_dart/unsure_result_message.dart';
 
@@ -12,12 +11,9 @@ import 'package:unsure_angular_dart/unsure_result_message.dart';
   directives: [
     NgIf,
     NgClass,
-    formDirectives,
   ],
 )
 class AppComponent implements OnInit {
-  String formula = '100 / 4~6';
-
   DorkerWorker _worker;
 
   String simpleResult = '';
@@ -34,13 +30,15 @@ class AppComponent implements OnInit {
 
   String percentiles = '';
 
-  void add(String s) => formula = '$formula$s';
+  String formulaString = '100 / 4~6';
+
+  void add(String s) => formulaString = '$formulaString$s';
 
   void delete() {
-    if (formula.isEmpty) return;
-    formula = formula.substring(0, formula.length - 1);
-    while (formula.endsWith(' ')) {
-      formula = formula.substring(0, formula.length - 1);
+    if (formulaString.isEmpty) return;
+    formulaString = formulaString.substring(0, formulaString.length - 1);
+    while (formulaString.endsWith(' ')) {
+      formulaString = formulaString.substring(0, formulaString.length - 1);
     }
   }
 
@@ -50,7 +48,7 @@ class AppComponent implements OnInit {
     _worker.onMessage.listen(_receiveResult);
   }
 
-  void startComputation() {
+  void startComputation(String formula) {
     _worker.postMessage.add(formula);
     isComputing = true;
     note = 'Please wait...';
