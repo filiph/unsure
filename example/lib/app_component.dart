@@ -30,11 +30,18 @@ class AppComponent implements OnInit {
 
   String percentiles = '';
 
+  @ViewChild('formula')
+  InputElement formulaInput;
+
   String formulaString = '100 / 4~6';
 
-  void add(String s) => formulaString = '$formulaString$s';
+  void add(String s) {
+    _updateFormulaString();
+    formulaString = '$formulaString$s';
+  }
 
   void delete() {
+    _updateFormulaString();
     if (formulaString.isEmpty) return;
     formulaString = formulaString.substring(0, formulaString.length - 1);
     while (formulaString.endsWith(' ')) {
@@ -76,5 +83,9 @@ class AppComponent implements OnInit {
     } else {
       throw ArgumentError('$result is not one of the messages we expect');
     }
+  }
+
+  void _updateFormulaString() {
+    formulaString = formulaInput.value;
   }
 }
