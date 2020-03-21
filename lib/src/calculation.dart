@@ -1,6 +1,7 @@
 import 'package:t_stats/t_stats.dart';
 import 'package:unsure/src/histogram.dart';
 import 'package:unsure/src/result.dart';
+import 'package:unsure/unsure.dart';
 
 /// A function that can be called repeatedly and it returns a number.
 typedef Formula = double Function();
@@ -19,9 +20,23 @@ class Calculation {
         List<double>.generate(iterations, (_) => formula(), growable: false);
     results.sort();
 
-    var hadInvalidValues = false;
-    if (results.any((r) => r.isNaN || r.isInfinite)) {
-      hadInvalidValues = true;
+    var invalidValuesCount = 0;
+    double representativeInvalidValue;
+    for (final result in results) {
+      if (result.isNaN || result.isInfinite) {
+        invalidValuesCount += 1;
+        representativeInvalidValue = result;
+      }
+    }
+
+    if (invalidValuesCount / iterations > Result.invalidThreshold) {
+      // Bail out early.
+      return Result.invalid(representativeInvalidValue);
+    }
+
+    var hadInvalidValues = invalidValuesCount > 0;
+
+    if (hadInvalidValues) {
       results = List<double>.from(
           results.where((r) => !r.isNaN && !r.isInfinite),
           growable: false);

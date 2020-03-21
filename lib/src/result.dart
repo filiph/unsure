@@ -24,6 +24,10 @@ class Confidence {
 }
 
 class Result {
+  /// The ratio of results that must be invalid in order for the whole
+  /// calculation to return a [singleInvalidValue] instead of a statistic.
+  static const double invalidThreshold = 0.5;
+
   final Statistic statistic;
 
   final List<double> percentiles;
@@ -38,6 +42,12 @@ class Result {
 
   final bool hadInvalidValues;
 
+  /// When the result was mostly invalid, for almost any run of the simulation
+  /// (like, for example, in the case of `100~101 / 0`), then
+  /// this field will hold the most representative value (e.g. [double.infinity]
+  /// or [double.nan];
+  final double singleInvalidValue;
+
   const Result(
     this.statistic,
     this.with2StandardDeviations,
@@ -46,7 +56,20 @@ class Result {
     this.percentiles,
     this.confidences,
     this.histogram,
-  );
+  ) : singleInvalidValue = null;
+
+  const Result.invalid(this.singleInvalidValue)
+      : statistic = null,
+        with2StandardDeviations = null,
+        with3StandardDeviations = null,
+        hadInvalidValues = true,
+        percentiles = null,
+        confidences = null,
+        histogram = null;
+
+  /// This is `true` if most of the results of the calculation were
+  /// not-a-number (like, for example, in the case of `100~101 / 0`).
+  bool get isInvalid => singleInvalidValue != null;
 
   String get percentilesString {
     final buf = StringBuffer();
@@ -78,6 +101,10 @@ class Result {
   // TODO: toRange -- uses percentiles to get a range from this result
 
   String get simple {
+    if (singleInvalidValue != null) {
+      return '$singleInvalidValue';
+    }
+
     final formatter = Formatter(
         [with2StandardDeviations.lower, with2StandardDeviations.upper]);
     final lower = formatter.format(with2StandardDeviations.lower);

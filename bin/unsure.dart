@@ -48,7 +48,11 @@ Future<int> main(List<String> args) async {
   final result = calculation.run();
   if (argResults['padding']) {
     print('\n\t${result.simple}\n');
-    if (result.hadInvalidValues) {
+    if (result.isInvalid) {
+      print('Warning: Most or all of the results of this computation '
+          'were invalid values (infinity, not-a-number). '
+          'It doesn\'t make sense to run statistics on this formula.');
+    } else if (result.hadInvalidValues) {
       print('Warning: Some of the results were invalid values '
           '(infinity, not-a-number). These were simply ignored in computing '
           'the final result.\n');
@@ -57,7 +61,7 @@ Future<int> main(List<String> args) async {
     print(result.simple);
   }
 
-  if (argResults['histogram']) {
+  if (argResults['histogram'] && !result.isInvalid) {
     if (!argResults['padding']) {
       // The result itself doesn't have padding, so we need to add it here.
       print('');
@@ -66,7 +70,7 @@ Future<int> main(List<String> args) async {
     print(result.histogram);
   }
 
-  if (argResults['percentiles']) {
+  if (argResults['percentiles'] && !result.isInvalid) {
     print('Percentiles:');
     print(result.percentilesString);
   }
