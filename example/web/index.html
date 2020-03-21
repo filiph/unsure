@@ -85,7 +85,7 @@
     <p>If we put it into the Unsure Calculator, we get this:</p>
     <img src="images/drake-results.png" alt="Results from the calculator, showing 0~450 and a histogram." loading="lazy">
     <p>So, we can expect anywhere between 0 and 450 civilizations. And the probability skews to the lower end (the histogram is wider towards the bottom).</p>
-    <p>Note: If you're curious why there is a negative number (`-5`) in the histogram, that's just an inevitable downside of the simplicity of the Unsure Calculator. Without further knowledge, the calculator cannot know that a negative number is impossible (in other words, you can't have -5 civilizations, for example).</p>
+    <p>Note: If you're curious why there is a negative number (<code>-5</code>) in the histogram, that's just an inevitable downside of the simplicity of the Unsure Calculator. Without further knowledge, the calculator cannot know that a negative number is impossible (in other words, you can't have -5 civilizations, for example).</p>
     <img src="images/alien.png" alt="An image of an alien and 0~450 next to it." loading="lazy">
 
     <h2>Other use cases</h2>
@@ -103,10 +103,10 @@
     <p>In the keypad above, you will only find <code>+</code>, <code>-</code>, <code>x</code> and <code>/</code>. But the calculator supports more than that, even in this early stage. You can calculate <code>2~3 ^ 4</code> (two to three, to the power of four), <code>sqrt(10~12)</code> (square root of ten to twelve) or <code>sin(90~95)</code> (sine of ninety to ninety five degrees).</p>
 
     <h2>Limitations</h2>
-    <p>This is a one man show. You should expect breakages. For example, as of this writing, trying to compute a square root of a negative <em>range</em> (<code>sqrt(-100~-50)</code>) will break the calculator.</p>
-    <p>The formula parser is brittle and gives unhelpful error messages.</p>
+    <p>This is a one man show. You should expect breakages. The formula parser is brittle and gives unhelpful error messages.</p>
     <p>The computation is quite slow. In order to stay as flexible as possible, I'm using the Monte Carlo method. Which means the calculator is running about 250K AST-based computations for every calculation you put forth.</p>
     <p>The UI is ugly, to say the least.</p>
+    <p>The only way to share formulas is to manually construct a URL. For example, sending someone to <code>https://filiph.github.io/unsure/#f=20~30</code> will auto-compute <code>20~30</code> for them.</p>
     <p><em>Range</em> is always a normal distribution, with the lower number being two standard deviations below the mean, and the upper number two standard deviations above. Nothing fancier is possible, in terms of input probability distributions.</p>
     <p>And of course, this is not a statistician's tool. Use the Unsure Calculator for back-of-a-napkin calculations. For anything more involved, use one of the free or paid statistical tools, a full programming environment, or hire a statistician.</p>
     <p>I hope some people will find this tool useful, despite the limitations and despite its spartan design.</p>

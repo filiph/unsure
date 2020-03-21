@@ -53,7 +53,34 @@ class AppComponent implements OnInit {
   void ngOnInit() {
     _worker = DorkerWorker(Worker('worker.dart.js'));
     _worker.onMessage.listen(_receiveResult);
+    _extractHashIntoFormula(window.location.hash);
     formulaInput.focus();
+  }
+
+  /// Takes a URL hash and, if it contains a valid formula, extracts it
+  /// into [formulaInput]
+  void _extractHashIntoFormula(String urlHash) {
+    final fIndex = urlHash.indexOf('f=');
+    if (fIndex == -1) return;
+
+    final startIndex = fIndex + 'f='.length;
+    if (startIndex >= urlHash.length) return;
+
+    var endIndex = urlHash.length;
+
+    var andIndex = urlHash.indexOf('&', startIndex);
+    if (andIndex != -1) {
+      endIndex = andIndex;
+    }
+
+    final urlEncodedFormula = urlHash.substring(startIndex, endIndex);
+
+    if (urlEncodedFormula.isEmpty) return;
+
+    final formula = Uri.decodeComponent(urlEncodedFormula);
+    formulaString = formula;
+    formulaInput.value = formula;
+    startComputation(formula);
   }
 
   void startComputation(String formula) {
