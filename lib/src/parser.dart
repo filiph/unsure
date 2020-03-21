@@ -43,7 +43,14 @@ Parser get formulaParser {
       // TODO: actually throw when a or b are not stochastic
       assert(!(a as AstNode).isStochastic);
       assert(!(b as AstNode).isStochastic);
-      final range = Range(a.emit(), b.emit());
+      final aValue = (a as AstNode).emit();
+      final bValue = (b as AstNode).emit();
+      if (aValue == bValue) {
+        print('Warning: range $aValue~$bValue is auto-converted to just '
+            'the value $aValue.');
+        return NumberNode(aValue);
+      }
+      final range = Range(aValue, bValue);
       return RangeNode(range);
     });
 
