@@ -76,12 +76,12 @@ class Result {
 
     var printedPercentiles = <int, double>{};
     // Instead of 100 and 0 percentiles, which are often crazy outliers,
-    // we show 3-sigma (99.73% confidence) percentiles.
-    printedPercentiles[100] = with3StandardDeviations.upper;
+    // we show 2-sigma (95% confidence) percentiles.
+    printedPercentiles[100] = with2StandardDeviations.upper;
     for (var i = 95; i > 0; i -= 5) {
       printedPercentiles[i] = percentiles[i];
     }
-    printedPercentiles[0] = with3StandardDeviations.lower;
+    printedPercentiles[0] = with2StandardDeviations.lower;
 
     final formatter = Formatter(printedPercentiles.values.toList());
     final longest = printedPercentiles.values
@@ -90,15 +90,19 @@ class Result {
         .reduce(max);
     for (final key in printedPercentiles.keys) {
       final value = printedPercentiles[key];
-      buf.write('${(key == 0 || key == 100 ? '~' : '')}$key %'.padLeft(10));
+      if (key == 0) {
+        buf.write('2.5 %'.padLeft(10));
+      } else if (key == 100) {
+        buf.write('97.5 %'.padLeft(10));
+      } else {
+        buf.write('$key %'.padLeft(10));
+      }
       buf.write(' | ');
       buf.writeln(formatter.format(value).padLeft(longest));
     }
 
     return buf.toString();
   }
-
-  // TODO: toRange -- uses percentiles to get a range from this result
 
   String get simple {
     if (singleInvalidValue != null) {
