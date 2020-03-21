@@ -53,6 +53,7 @@ class AppComponent implements OnInit {
   void ngOnInit() {
     _worker = DorkerWorker(Worker('worker.dart.js'));
     _worker.onMessage.listen(_receiveResult);
+    formulaInput.focus();
   }
 
   void startComputation(String formula) {
