@@ -14,8 +14,11 @@ abstract class BaseResultMessage {
         return StochasticResultMessage.fromData(object);
       case FailureResultMessage.typeName:
         return FailureResultMessage.fromData(object);
+      case InvalidResultMessage.typeName:
+        return InvalidResultMessage.fromData(object);
       default:
-        throw ArgumentError('$object');
+        throw ArgumentError('Cannot deserialize result '
+            'in BaseResultMessage.fromData: $object');
     }
   }
 }
@@ -39,6 +42,27 @@ class FailureResultMessage extends BaseResultMessage {
       'type': typeName,
       'simpleResult': simpleResult,
       'message': message,
+    };
+    return json.encode(object);
+  }
+}
+
+class InvalidResultMessage extends BaseResultMessage {
+  static const typeName = 'stochastic-invalid';
+
+  @override
+  final String simpleResult;
+
+  InvalidResultMessage(this.simpleResult);
+
+  InvalidResultMessage.fromData(Map<String, String> object)
+      : simpleResult = object['simpleResult'];
+
+  @override
+  String toData() {
+    var object = {
+      'type': typeName,
+      'simpleResult': simpleResult,
     };
     return json.encode(object);
   }

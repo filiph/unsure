@@ -50,6 +50,13 @@ class UnsureDorker {
 
     var calculation = Calculation(formula.emit, iterations: 250000);
     var result = calculation.run();
+
+    if (result.isInvalid) {
+      var message = InvalidResultMessage(result.simple);
+      _dorker.postMessage.add(message.toData());
+      return;
+    }
+
     var message = StochasticResultMessage(
         result.simple, result.histogram.toString(), result.percentilesString);
     _dorker.postMessage.add(message.toData());

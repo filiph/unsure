@@ -71,6 +71,12 @@ class AppComponent implements OnInit {
       note = 'There was a problem with your formula ${result.message}.';
       histogram = '';
       percentiles = '';
+    } else if (result is InvalidResultMessage) {
+      note = 'Most or all of the results of this computation '
+          'were invalid values. '
+          'It doesn\'t make sense to run statistics on this formula.';
+      histogram = '';
+      percentiles = '';
     } else if (result is StochasticResultMessage) {
       histogram = result.histogram;
       percentiles = result.percentiles;
