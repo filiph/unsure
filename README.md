@@ -54,10 +54,16 @@ the histogram will be smoother). We can do this because Dart (compiled or not)
 runs a lot faster than JavaScript. That said, in my experiments, 250K iterations
 is precise enough.
 
+### Easy installation
+
 If you don't want to clone the repository and just want to try the command line
 tool, you can use `pub` (part of the Dart SDK) to install it:
 
     $ pub global activate unsure
+
+Or, if you have the Flutter SDK installed:
+
+    $ flutter pub global activate unsure
 
 You might need to follow instructions that `pub` gives you, but after that,
 you can just run `unsure` as a regular command line program from anywhere.
