@@ -12,8 +12,8 @@
         <entry key="analyzer">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-0.35.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-0.39.4/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-0.35.4/lib" />
             </list>
           </value>
         </entry>
@@ -62,16 +62,16 @@
         <entry key="args">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/args-1.6.0/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/args-1.5.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/args-1.6.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="async">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/async-2.4.1/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/async-2.4.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/async-2.4.1/lib" />
             </list>
           </value>
         </entry>
@@ -85,8 +85,8 @@
         <entry key="boolean_selector">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/boolean_selector-1.0.5/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/boolean_selector-1.0.5/lib" />
             </list>
           </value>
         </entry>
@@ -122,7 +122,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-1.2.1/lib" />
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-1.3.3/lib" />
             </list>
           </value>
         </entry>
@@ -220,8 +219,8 @@
         <entry key="csslib">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.14.6+1/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.16.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.14.6+1/lib" />
             </list>
           </value>
         </entry>
@@ -229,7 +228,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-1.2.4/lib" />
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-1.3.3/lib" />
             </list>
           </value>
         </entry>
@@ -348,8 +346,8 @@
         <entry key="matcher">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.5/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.5/lib" />
             </list>
           </value>
         </entry>
@@ -447,8 +445,8 @@
         <entry key="pub_semver">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.4/lib" />
             </list>
           </value>
         </entry>
@@ -483,8 +481,8 @@
         <entry key="shelf_packages_handler">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shelf_packages_handler-1.0.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shelf_packages_handler-2.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shelf_packages_handler-1.0.4/lib" />
             </list>
           </value>
         </entry>
@@ -512,8 +510,8 @@
         <entry key="source_map_stack_trace">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.5/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_map_stack_trace-2.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.5/lib" />
             </list>
           </value>
         </entry>
@@ -527,8 +525,8 @@
         <entry key="source_span">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_span-1.7.0/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_span-1.6.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/source_span-1.7.0/lib" />
             </list>
           </value>
         </entry>
@@ -577,24 +575,24 @@
         <entry key="test">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test-1.6.3/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test-1.14.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test-1.6.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="test_api">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.5/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.15/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.5/lib" />
             </list>
           </value>
         </entry>
         <entry key="test_core">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_core-0.2.5/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_core-0.3.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/test_core-0.2.5/lib" />
             </list>
           </value>
         </entry>
@@ -678,7 +676,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_daemon-2.1.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_modules-2.8.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-1.2.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_resolvers-1.3.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner-1.8.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_runner_core-4.5.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/build_test-0.10.12+1/lib" />
@@ -695,7 +692,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.14.6+1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/csslib-0.16.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-1.2.4/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dart_style-1.3.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/dorker-0.1.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/fixnum-0.10.11/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/front_end-0.1.14/lib" />

@@ -8,7 +8,7 @@ is for you. Otherwise, please go to
 about the Unsure Calculator itself.
 
 
-## Web example
+## Web app
 
 The web calculator is in `example/`. To run it from source:
 
@@ -29,7 +29,7 @@ To publish the example to
    `git push origin --set-upstream gh-pages`
 
 
-## Use as a command line tool
+## Command line tool
 
 You can run the command line version of the calculator by executing something
 like `dart bin/unsure.dart "10 * 2~3"` from the root of the repository. 
@@ -53,7 +53,7 @@ runs a lot faster than JavaScript. That said, in my experiments, 250K iterations
 is precise enough.
 
 
-## Use as a package
+## Package
 
 Apart from that online tool, this is also a (beginning of a) package. 
 Read through `bin/unsure.dart` to see how it might be used.
