@@ -1,5 +1,10 @@
 # Unsure Calculator
 
+[![Build Status - Cirrus][]][Build status]
+
+[Build Status - Cirrus]: https://api.cirrus-ci.com/github/filiph/unsure.svg
+[Build status]: https://cirrus-ci.com/github/filiph/unsure/master
+
 If you want to run the Unsure Calculator from source, this repository
 is for you. Otherwise, please go to 
 [filiph.github.io/unsure](https://filiph.github.io/unsure) to learn more
