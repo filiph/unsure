@@ -33,7 +33,9 @@ You can compile the binary buy running `dart2native bin/unsure.dart`. Then,
 call the binary with a formula, like this:
 
     $ ./unsure "10~20 * 42"
-    
+
+![An animated gif of the binary in action](https://user-images.githubusercontent.com/919717/77241570-1a216100-6bb1-11ea-8e9d-e10b1aaf2106.gif)
+
 To get help, run `./unsure --help`.
 
 ### Use as a package
