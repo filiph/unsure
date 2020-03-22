@@ -14,7 +14,7 @@ void main() {
     var calculation = Calculation(formula.emit);
 
     Result result;
-    expect(() => result= calculation.run(), returnsNormally);
+    expect(() => result = calculation.run(), returnsNormally);
     expect(result.isInvalid, isTrue);
   });
 }
