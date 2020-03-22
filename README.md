@@ -2,12 +2,9 @@
 
 [![Build Status - Cirrus][]][Build status]
 
-[Build Status - Cirrus]: https://api.cirrus-ci.com/github/filiph/unsure.svg
-[Build status]: https://cirrus-ci.com/github/filiph/unsure/master
-
 If you want to run the Unsure Calculator from source, this repository
 is for you. Otherwise, please go to 
-[filiph.github.io/unsure](https://filiph.github.io/unsure) to learn more
+[filiph.github.io/unsure][webapp] to learn more
 about the Unsure Calculator itself.
 
 ### Web example
@@ -71,11 +68,48 @@ In this example, we defined one constant (`principal`), two ranges
 interest given the above. The callback can be arbitrary Dart code: you are
 not limited to the format understandable by `lib/src/parser.dart`.
 
+### Help needed
+
+There's only so much I (Filip) can do myself. If this is ever going to be
+a truly open source project, I need to remove myself from a lot of the
+ownership of this thing. 
+
+* Can you help me publish the CLI binary to popular repositories such as
+  APT, Homebrew, or Nugget? I know how to compile the tool on each platform,
+  but I don't know what to do next.
+* Can you come up with more interesting use case or formula, and write 
+  an article about it? The companion article at 
+  [filiph.github.io/unsure][webapp] is already too long.
+* Similarly, can you record a video tutorial explaining the use of this tool?
+* Can you help me automate the creation of binaries for each release, for each
+  platform? I hear GitHub actions is the way to do it, but I've never done it.
+* If you're familiar with `package:petitparser`, can you help me rewrite the
+  formula parser so it's more helpful? In particular, I'd like it to give
+  more helpful feedback to the user.
+* Can you help me automate test coverage reporting?
+* Can you help me make the [Unsure Calculator site][webapp] into 
+  a true Progressive Web App?
+* Can you help me put the range (`~`) notation into more calculators out there?
+
+If you're interested in helping, please see if there's
+[an issue](https://github.com/filiph/unsure/issues) you might assign to
+yourself, and if not, create it.
+
+
 ### Language
 
-Some language to use when talking about statistical probabilities.
+I've done some research on what people generally mean when they say things like
+"certainly" in regular speech. This might be useful when talking about
+probabilities with untrained statisticians (such as myself).
 
-* All / certainly - 100%
-* Almost all / almost certainly - 95%
-* Large majority / quite possibly - 68%
-* Bare or small majority / possibly - 50%
+| Noun | Adverb | Percentage | Sigma |
+| -----| ------ | ---------- | ----- |
+| All | Certainly | 100 % | - |
+| Almost all | Almost certainly | 95 % | 2 |
+| Large majority | Quite possibly | 68 % | 1 |
+| Bare majority | Possibly | 50+ % | - |
+
+
+[webapp]: https://filiph.github.io/unsure
+[Build Status - Cirrus]: https://api.cirrus-ci.com/github/filiph/unsure.svg
+[Build status]: https://cirrus-ci.com/github/filiph/unsure/master
