@@ -5,7 +5,7 @@
 If you want to run the Unsure Calculator from source, this repository
 is for you. Otherwise, please go to 
 [filiph.github.io/unsure][webapp] to learn more
-about the Unsure Calculator itself.
+about the Unsure Calculator itself, and run it—for free—from your browser.
 
 
 ## Web app
