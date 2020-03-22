@@ -1,10 +1,12 @@
 name: unsure
-description: An easy uncertainty calculator.
-version: 0.1.0
+description: >
+  An easy to use probabilistic notation, and a package that can parse it
+  and calculate with it.
+version: 0.1.1
 homepage: https://github.com/filiph/unsure
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
   args: ^1.5.2
