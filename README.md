@@ -7,7 +7,8 @@ is for you. Otherwise, please go to
 [filiph.github.io/unsure][webapp] to learn more
 about the Unsure Calculator itself.
 
-### Web example
+
+## Web example
 
 The web calculator is in `example/`. To run it from source:
 
@@ -27,18 +28,32 @@ To publish the example to
 4. Push the newly updated `gh-pages` branch to github: 
    `git push origin --set-upstream gh-pages`
 
-### Use as a binary
 
-You can compile the binary buy running `dart2native bin/unsure.dart`. Then,
-call the binary with a formula, like this:
+## Use as a command line tool
+
+You can run the command line version of the calculator by executing something
+like `dart bin/unsure.dart "10 * 2~3"` from the root of the repository. 
+To get help, run `dart bin/unsure.dart --help`.
+
+You can compile the tool to a binary executable by running 
+`dart2native bin/unsure.dart -o unsure`. Then, call the binary like this:
 
     $ ./unsure "10~20 * 42"
 
 ![An animated gif of the binary in action](https://user-images.githubusercontent.com/919717/77241570-1a216100-6bb1-11ea-8e9d-e10b1aaf2106.gif)
 
-To get help, run `./unsure --help`.
+This compiled binary starts much faster than if you run the code through 
+`dart bin/unsure.dart "..."`.
 
-### Use as a package
+Note that the command line tool defaults to 1 million iterations (compared
+to the 250K iterations of the web tool). That makes it a bit more precise
+(meaning that the results will be a tiny bit closer to the truth, and 
+the histogram will be smoother). We can do this because Dart (compiled or not)
+runs a lot faster than JavaScript. That said, in my experiments, 250K iterations
+is precise enough.
+
+
+## Use as a package
 
 Apart from that online tool, this is also a (beginning of a) package. 
 Read through `bin/unsure.dart` to see how it might be used.
@@ -62,7 +77,6 @@ void main() {
     print(result.histogram);
     print(result.confidences[99]);
 }
-
 ```
 
 In this example, we defined one constant (`principal`), two ranges
@@ -70,7 +84,8 @@ In this example, we defined one constant (`principal`), two ranges
 interest given the above. The callback can be arbitrary Dart code: you are
 not limited to the format understandable by `lib/src/parser.dart`.
 
-### Help needed
+
+## Help needed
 
 There's only so much I (Filip) can do myself. If this is ever going to be
 a truly open source project, I need to remove myself from a lot of the
@@ -89,6 +104,7 @@ ownership of this thing.
   formula parser so it's more helpful? In particular, I'd like it to give
   more helpful feedback to the user.
 * Can you help me automate test coverage reporting?
+* Can you help me make the command line executable more stable?
 * Can you help me make the [Unsure Calculator site][webapp] into 
   a true Progressive Web App?
 * Can you help me put the range (`~`) notation into more calculators out there?
@@ -98,7 +114,7 @@ If you're interested in helping, please see if there's
 yourself, and if not, create it.
 
 
-### Language
+## Language
 
 I've done some research on what people generally mean when they say things like
 "certainly" in regular speech. This might be useful when talking about
