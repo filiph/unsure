@@ -10,9 +10,11 @@ about the Unsure Calculator itself, and run it—for free—from your browser.
 
 ## Web app
 
-The web calculator is in `example/`. To run it from source:
+The web calculator is in `example/`. To run it from source (assuming you have
+the [Dart SDK](https://dart.dev/get-dart) installed):
 
     $ cd example/
+    $ pub get
     $ webdev serve --release
 
 Now, navigating to `http://localhost:8080` will open the page. Changing
@@ -51,6 +53,14 @@ to the 250K iterations of the web tool). That makes it a bit more precise
 the histogram will be smoother). We can do this because Dart (compiled or not)
 runs a lot faster than JavaScript. That said, in my experiments, 250K iterations
 is precise enough.
+
+If you don't want to clone the repository and just want to try the command line
+tool, you can use `pub` (part of the Dart SDK) to install it:
+
+    $ pub global activate unsure
+
+You might need to follow instructions that `pub` gives you, but after that,
+you can just run `unsure` as a regular command line program from anywhere.
 
 
 ## Package
