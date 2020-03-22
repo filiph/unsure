@@ -17,14 +17,13 @@ Future<int> main(List<String> args) async {
         defaultsTo: true);
 
   final argResults = argParser.parse(args);
+  final formulaString = argResults.rest.join(' ').trim();
 
-  if (argResults['help']) {
+  if (argResults['help'] || formulaString.isEmpty) {
     print(_help);
     print(argParser.usage);
     return 2;
   }
-
-  final formulaString = argResults.rest.join(' ');
 
   final formula = parseString(formulaString);
 
