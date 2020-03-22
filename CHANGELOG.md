@@ -1,3 +1,8 @@
+## 0.1.2
+
+- Allow installing `unsure` with `pub global activate unsure`
+- Fix crash if the CLI `unsure` tool is called without a formula
+
 ## 0.1.1
 
 - Loosened Dart SDK constraints
