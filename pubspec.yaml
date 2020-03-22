@@ -2,7 +2,7 @@ name: unsure
 description: >
   An easy to use probabilistic notation, and a package that can parse it
   and calculate with it.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/filiph/unsure
 
 environment:
