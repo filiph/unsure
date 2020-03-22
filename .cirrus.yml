@@ -1,0 +1,12 @@
+container:
+  image: cirrusci/flutter:stable
+
+test_task:
+  env:
+    CIRRUS_CLONE_DEPTH: 3
+  pub_cache:
+    folder: ~/.pub-cache
+  pub_get_script: pub get
+  dartanalyzer_script: dartanalyzer lib/ test/ bin/
+  test_script: pub run test
+  flutter_format_script: dartfmt --dry-run --set-exit-if-changed .
