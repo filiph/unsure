@@ -5,18 +5,18 @@ import 'package:unsure/src/range.dart';
 // ignore_for_file: omit_local_variable_types
 
 /// The cached instance of the parser.
-Parser _formulaParser;
+Parser? _formulaParser;
 
 /// Construct the parser, with caching.
 Parser get formulaParser {
-  if (_formulaParser != null) return _formulaParser;
+  if (_formulaParser != null) return _formulaParser!;
 
   final Parser<AstNode> numberParser = digit()
       .plus()
       .seq(char('.').seq(digit().plus()).optional())
       .flatten()
       .trim()
-      .map((a) => NumberNode(double.tryParse(a)));
+      .map((a) => NumberNode(double.tryParse(a)!));
 
   // Start the arithmetic parser.
   // The following is taken from `package:petitparser` README.
@@ -37,7 +37,7 @@ Parser get formulaParser {
       );
 
   // The range operator is left associative and very high-priority.
-  builder.group().left(char('~').trim(), (a, op, b) {
+  builder.group().left(char('~').trim(), (a, dynamic op, b) {
     // TODO: actually throw when a or b are not stochastic
     assert(!(a as AstNode).isStochastic);
     assert(!(b as AstNode).isStochastic);
@@ -54,13 +54,13 @@ Parser get formulaParser {
 
   builder.group()
     ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
-        (l, a, r) => SquareRootFunctionNode(a))
+        (dynamic l, a, dynamic r) => SquareRootFunctionNode(a))
     ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
-        (l, a, r) => SineFunctionNode(a))
+        (dynamic l, a, dynamic r) => SineFunctionNode(a))
     ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
-        (l, a, r) => CosineFunctionNode(a))
+        (dynamic l, a, dynamic r) => CosineFunctionNode(a))
     ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
-        (l, a, r) => TangentFunctionNode(a));
+        (dynamic l, a, dynamic r) => TangentFunctionNode(a));
 
   // power is right-associative
   builder.group().right<dynamic>(
@@ -89,7 +89,7 @@ Parser get formulaParser {
     );
 
   _formulaParser = builder.build().end();
-  return _formulaParser;
+  return _formulaParser!;
 }
 
 FormulaAst parseString(String string) {

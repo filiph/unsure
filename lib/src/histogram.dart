@@ -56,7 +56,7 @@ class ProbabilityHistogram {
     /// Adds a line to [buf]. You can specify a different character
     /// for the bar, such as '░' or '▓'.
     void addLine(String label, int count,
-        {String trailing, String char = '▒'}) {
+        {String? trailing, String char = '▒'}) {
       buf.write(label.padLeft(10));
       buf.write(' | ');
       for (var i = 0; i < (count / maxCount * maxSize); i++) {
@@ -74,7 +74,7 @@ class ProbabilityHistogram {
       var count = counts[i];
       var bandStart = lowerBound + i * bandSize;
 
-      String trailing;
+      String? trailing;
       if (bandStart < median && median < bandStart + bandSize) {
         trailing = ' (${formatter.format(median)})';
       }

@@ -47,11 +47,11 @@ class DivisionNode extends MathOperationNode {
 }
 
 class FormulaAst implements AstNode {
-  final AstNode rootNode;
+  final AstNode? rootNode;
 
   final bool wasFailure;
 
-  final String failureMessage;
+  final String? failureMessage;
 
   final String failureBuffer;
 
@@ -61,10 +61,10 @@ class FormulaAst implements AstNode {
       this.failureBuffer, this.failurePosition);
 
   @override
-  bool get isStochastic => rootNode.isStochastic;
+  bool get isStochastic => rootNode!.isStochastic;
 
   @override
-  double emit() => rootNode.emit();
+  double emit() => rootNode!.emit();
 }
 
 abstract class MathFunctionNode extends AstNode {
@@ -108,7 +108,7 @@ class MathPowerNode extends AstNode {
   bool get isStochastic => x.isStochastic || exponent.isStochastic;
 
   @override
-  double emit() => math.pow(x.emit(), exponent.emit());
+  double emit() => math.pow(x.emit(), exponent.emit()) as double;
 }
 
 class MultiplicationNode extends MathOperationNode {

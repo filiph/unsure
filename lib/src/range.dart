@@ -12,12 +12,10 @@ class Range {
 
   final double standardDeviation;
 
-  Iterator<double> _iterator;
+  late Iterator<double> _iterator;
 
-  Range(this.minimum, this.maximum, {Random random})
-      : assert(minimum != null),
-        assert(maximum != null),
-        assert(
+  Range(this.minimum, this.maximum, {Random? random})
+      : assert(
             minimum < maximum,
             'Minimum must be lower than maximum: '
             'minimumum=$minimum, maximum=$maximum'),

@@ -2,11 +2,11 @@ name: unsure
 description: >
   An easy to use probabilistic notation, and a package that can parse it
   and calculate with it.
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/filiph/unsure
 
 environment:
-  sdk: '>=2.3.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   petitparser: ^5.0.0

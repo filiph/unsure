@@ -13,7 +13,7 @@ void main() {
     var formula = parseString('100~101 / 0');
     var calculation = Calculation(formula.emit);
 
-    Result result;
+    late Result result;
     expect(() => result = calculation.run(), returnsNormally);
     expect(result.isInvalid, isTrue);
   });

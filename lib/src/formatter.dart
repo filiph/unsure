@@ -6,72 +6,72 @@ final _precisions = <_Precision>[
   _Precision(
     '350B',
     (n) => _quantize(n / 1000000000, 50) + 'B',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '340B',
     (n) => _quantize(n / 1000000000, 10) + 'B',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '345B',
     (n) => _quantize(n / 1000000000, 5) + 'B',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '5B',
     (n) => _divide(n, 1000000000) + 'B',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '4.2B',
     (n) => (n / 1000000000).toStringAsFixed(1) + 'B',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '350M',
     (n) => _quantize(n / 1000000, 50) + 'M',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '340M',
     (n) => _quantize(n / 1000000, 10) + 'M',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '345M',
     (n) => _quantize(n / 1000000, 5) + 'M',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '5M',
     (n) => _divide(n, 1000000) + 'M',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '4.2M',
     (n) => (n / 1000000).toStringAsFixed(1) + 'M',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '350K',
     (n) => _quantize(n / 1000, 50) + 'K',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '340K',
     (n) => _quantize(n / 1000, 10) + 'K',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '345K',
     (n) => _quantize(n / 1000, 5) + 'K',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '343K',
     (n) => _divide(n, 1000) + 'K',
-    (s) => double.tryParse(s.substring(0, s.length - 1)) * 1000,
+    (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '350',
@@ -141,7 +141,7 @@ String _quantize(double number, int step) {
 /// and that they still maintain their differences (1000.1 and 1001.1 become
 /// 1000 and 1001).
 class Formatter {
-  _Precision _precision;
+  late _Precision _precision;
 
   /// The constructor takes a list of [numbers]. It is best to provide
   /// all the numbers that will be represented alongside each other,
@@ -222,7 +222,7 @@ class _Precision {
   final double Function(String) parseBack;
 
   const _Precision(this.example, this.formatFunction,
-      [this.parseBack = double.tryParse]);
+      [this.parseBack = double.parse]);
 
   @override
   String toString() => 'Precision<$example>';

@@ -11,9 +11,9 @@ void main() {
       var banded = possibilities.map((n) => n.round());
       var occurrences = _countOccurrences(banded);
 
-      expect(occurrences[5], greaterThan(occurrences[1]));
-      expect(occurrences[5], greaterThan(occurrences[9]));
-      expect(occurrences[4], closeTo(occurrences[6], n / 100));
+      expect(occurrences[5], greaterThan(occurrences[1]!));
+      expect(occurrences[5], greaterThan(occurrences[9]!));
+      expect(occurrences[4], closeTo(occurrences[6]!, n / 100));
     });
   });
 }

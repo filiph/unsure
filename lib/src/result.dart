@@ -28,17 +28,17 @@ class Result {
   /// calculation to return a [singleInvalidValue] instead of a statistic.
   static const double invalidThreshold = 0.5;
 
-  final Statistic statistic;
+  final Statistic? statistic;
 
-  final List<double> percentiles;
+  final List<double>? percentiles;
 
-  final List<Confidence> confidences;
+  final List<Confidence>? confidences;
 
-  final ProbabilityHistogram histogram;
+  final ProbabilityHistogram? histogram;
 
-  final Confidence with2StandardDeviations;
+  final Confidence? with2StandardDeviations;
 
-  final Confidence with3StandardDeviations;
+  final Confidence? with3StandardDeviations;
 
   final bool hadInvalidValues;
 
@@ -46,7 +46,7 @@ class Result {
   /// (like, for example, in the case of `100~101 / 0`), then
   /// this field will hold the most representative value (e.g. [double.infinity]
   /// or [double.nan];
-  final double singleInvalidValue;
+  final double? singleInvalidValue;
 
   const Result(
     this.statistic,
@@ -77,11 +77,11 @@ class Result {
     var printedPercentiles = <int, double>{};
     // Instead of 100 and 0 percentiles, which are often crazy outliers,
     // we show 2-sigma (95% confidence) percentiles.
-    printedPercentiles[100] = with2StandardDeviations.upper;
+    printedPercentiles[100] = with2StandardDeviations!.upper;
     for (var i = 95; i > 0; i -= 5) {
-      printedPercentiles[i] = percentiles[i];
+      printedPercentiles[i] = percentiles![i];
     }
-    printedPercentiles[0] = with2StandardDeviations.lower;
+    printedPercentiles[0] = with2StandardDeviations!.lower;
 
     final formatter = Formatter(printedPercentiles.values.toList());
     final longest = printedPercentiles.values
@@ -89,7 +89,7 @@ class Result {
         .map((s) => s.length)
         .reduce(max);
     for (final key in printedPercentiles.keys) {
-      final value = printedPercentiles[key];
+      final value = printedPercentiles[key]!;
       if (key == 0) {
         buf.write('2.5 %'.padLeft(10));
       } else if (key == 100) {
@@ -110,9 +110,9 @@ class Result {
     }
 
     final formatter = Formatter(
-        [with2StandardDeviations.lower, with2StandardDeviations.upper]);
-    final lower = formatter.format(with2StandardDeviations.lower);
-    final upper = formatter.format(with2StandardDeviations.upper);
+        [with2StandardDeviations!.lower, with2StandardDeviations!.upper]);
+    final lower = formatter.format(with2StandardDeviations!.lower);
+    final upper = formatter.format(with2StandardDeviations!.upper);
 
     return '$lower~$upper';
   }

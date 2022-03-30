@@ -21,7 +21,7 @@ class Calculation {
     results.sort();
 
     var invalidValuesCount = 0;
-    double representativeInvalidValue;
+    double? representativeInvalidValue;
     for (final result in results) {
       if (result.isNaN || result.isInfinite) {
         invalidValuesCount += 1;
