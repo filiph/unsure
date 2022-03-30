@@ -23,36 +23,34 @@ Parser get formulaParser {
   final builder = ExpressionBuilder();
 
   builder.group()
-    ..primitive<AstNode>(numberParser)
-    ..wrapper<String, AstNode>(
+    ..primitive(numberParser)
+    ..wrapper<String, String>(
       char('(').trim(),
       char(')').trim(),
       (l, a, r) => ParensNode(a),
     );
 
   // negation is a prefix operator
-  builder.group()
-    .prefix<String, AstNode>(
-      char('-').trim(),
-      (op, a) => NegativeNode(a),
-    );
+  builder.group().prefix<String>(
+        char('-').trim(),
+        (op, a) => NegativeNode(a),
+      );
 
   // The range operator is left associative and very high-priority.
-  builder.group()
-    .left(char('~').trim(), (a, op, b) {
-      // TODO: actually throw when a or b are not stochastic
-      assert(!(a as AstNode).isStochastic);
-      assert(!(b as AstNode).isStochastic);
-      final aValue = (a as AstNode).emit();
-      final bValue = (b as AstNode).emit();
-      if (aValue == bValue) {
-        print('Warning: range $aValue~$bValue is auto-converted to just '
-            'the value $aValue.');
-        return NumberNode(aValue);
-      }
-      final range = Range(aValue, bValue);
-      return RangeNode(range);
-    });
+  builder.group().left(char('~').trim(), (a, op, b) {
+    // TODO: actually throw when a or b are not stochastic
+    assert(!(a as AstNode).isStochastic);
+    assert(!(b as AstNode).isStochastic);
+    final aValue = (a as AstNode).emit();
+    final bValue = (b as AstNode).emit();
+    if (aValue == bValue) {
+      print('Warning: range $aValue~$bValue is auto-converted to just '
+          'the value $aValue.');
+      return NumberNode(aValue);
+    }
+    final range = Range(aValue, bValue);
+    return RangeNode(range);
+  });
 
   builder.group()
     ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
@@ -65,28 +63,27 @@ Parser get formulaParser {
         (l, a, r) => TangentFunctionNode(a));
 
   // power is right-associative
-  builder.group()
-    .right<dynamic, AstNode>(
-      char('^').or(string('**')).trim(),
-      (a, op, b) => MathPowerNode(a, b),
-    );
+  builder.group().right<dynamic>(
+        char('^').or(string('**')).trim(),
+        (a, op, b) => MathPowerNode(a, b),
+      );
 
   // multiplication and addition are left-associative
   builder.group()
-    ..left<dynamic, AstNode>(
+    ..left<dynamic>(
       char('*').or(char('x')).or(char('X')).trim(),
       (a, op, b) => MultiplicationNode(a, b),
     )
-    ..left<String, AstNode>(
+    ..left<String>(
       char('/').trim(),
       (a, op, b) => DivisionNode(a, b),
     );
   builder.group()
-    ..left<String, AstNode>(
+    ..left<String>(
       char('+').trim(),
       (a, op, b) => AdditionNode(a, b),
     )
-    ..left<String, AstNode>(
+    ..left<String>(
       char('-').trim(),
       (a, op, b) => SubtractionNode(a, b),
     );
@@ -99,5 +96,5 @@ FormulaAst parseString(String string) {
   final result = formulaParser.parse(string);
 
   return FormulaAst(result.isFailure ? null : result.value, result.isFailure,
-      result.message, result.buffer, result.position);
+      result.isFailure ? result.message : null, result.buffer, result.position);
 }
