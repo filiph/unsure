@@ -32,14 +32,14 @@ Parser get formulaParser {
 
   // negation is a prefix operator
   builder.group()
-    ..prefix<String, AstNode>(
+    .prefix<String, AstNode>(
       char('-').trim(),
       (op, a) => NegativeNode(a),
     );
 
   // The range operator is left associative and very high-priority.
   builder.group()
-    ..left(char('~').trim(), (a, op, b) {
+    .left(char('~').trim(), (a, op, b) {
       // TODO: actually throw when a or b are not stochastic
       assert(!(a as AstNode).isStochastic);
       assert(!(b as AstNode).isStochastic);
@@ -66,7 +66,7 @@ Parser get formulaParser {
 
   // power is right-associative
   builder.group()
-    ..right<dynamic, AstNode>(
+    .right<dynamic, AstNode>(
       char('^').or(string('**')).trim(),
       (a, op, b) => MathPowerNode(a, b),
     );
