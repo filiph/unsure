@@ -9,11 +9,11 @@ environment:
   sdk: '>=2.16.0 <3.0.0'
 
 dependencies:
+  args: ^2.3.0
   petitparser: ^5.0.0
   t_stats: ^3.0.0
 
 dev_dependencies:
-  args: ^2.3.0
   lints: ^1.0.1
   test: ^1.6.0
 
