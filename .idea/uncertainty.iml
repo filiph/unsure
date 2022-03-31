@@ -8,6 +8,9 @@
       <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/napkin/build" />
+      <excludeFolder url="file://$MODULE_DIR$/napkin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/napkin/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
