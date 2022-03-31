@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Migrate to null safety
+
 ## 0.1.2
 
 - Allow installing `unsure` with `pub global activate unsure`
