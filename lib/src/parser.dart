@@ -16,7 +16,7 @@ Parser get formulaParser {
       .seq(char('.').seq(digit().plus()).optional())
       .flatten()
       .trim()
-      .map((a) => NumberNode(double.tryParse(a)!));
+      .map((a) => NumberNode(double.parse(a)));
 
   // Start the arithmetic parser.
   // The following is taken from `package:petitparser` README.
