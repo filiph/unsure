@@ -64,7 +64,7 @@ class Calculation {
     );
 
     const percentileCount = 101 /* 0 - 100 */;
-    var percentiles = List<double>.filled(percentileCount, 0);
+    var percentiles = List<double>.filled(percentileCount, 0, growable: false);
     for (var p = 0; p < percentileCount - 1; p++) {
       percentiles[p] = results[(length * p / 100).floor()];
     }

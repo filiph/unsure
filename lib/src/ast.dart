@@ -32,6 +32,22 @@ abstract class AstNode {
   double emit();
 }
 
+/// Nodes such as `10%` (where the `%` means "divide by 100") or
+/// `10M` (where the `M` means "multiply by a million").
+class ConstantMultipleNode extends AstNode {
+  final AstNode a;
+
+  final double k;
+
+  ConstantMultipleNode(this.a, this.k);
+
+  @override
+  bool get isStochastic => a.isStochastic;
+
+  @override
+  double emit() => a.emit() * k;
+}
+
 class CosineFunctionNode extends MathFunctionNode {
   CosineFunctionNode(AstNode a) : super(a);
 
@@ -49,6 +65,9 @@ class DivisionNode extends MathOperationNode {
 class FormulaAst implements AstNode {
   final AstNode? rootNode;
 
+  /// The name of the variable, if any, that this formula represents.
+  final String? name;
+
   final bool wasFailure;
 
   final String? failureMessage;
@@ -58,7 +77,8 @@ class FormulaAst implements AstNode {
   final int failurePosition;
 
   const FormulaAst(this.rootNode, this.wasFailure, this.failureMessage,
-      this.failureBuffer, this.failurePosition);
+      this.failureBuffer, this.failurePosition,
+      {this.name});
 
   @override
   bool get isStochastic => rootNode!.isStochastic;
@@ -193,4 +213,18 @@ class TangentFunctionNode extends MathFunctionNode {
 
   @override
   double compute(double a) => math.tan(a / 180 * math.pi);
+}
+
+class VariableNode extends AstNode {
+  final String variableName;
+
+  final FormulaAst formula;
+
+  const VariableNode(this.variableName, this.formula);
+
+  @override
+  bool get isStochastic => formula.isStochastic;
+
+  @override
+  double emit() => formula.emit();
 }

@@ -25,7 +25,8 @@ Future<int> main(List<String> args) async {
     return 2;
   }
 
-  final formula = parseString(formulaString);
+  final parser = FormulaParser();
+  final formula = parser.parseString(formulaString);
 
   // Show a simple result for formulas that include no uncertainty.
   if (!formula.isStochastic) {

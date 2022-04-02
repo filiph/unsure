@@ -4,97 +4,198 @@ import 'package:unsure/src/range.dart';
 
 // ignore_for_file: omit_local_variable_types
 
-/// The cached instance of the parser.
-Parser? _formulaParser;
+class FormulaParser {
+  /// Pre-existing variables. For example, this formula may be merely
+  /// `x + 1~2`, where `x` is defined elsewhere.
+  final Map<String, FormulaAst> variables;
 
-/// Construct the parser, with caching.
-Parser get formulaParser {
-  if (_formulaParser != null) return _formulaParser!;
+  /// The cached instance of the parser.
+  Parser? _formulaParser;
 
-  final Parser<AstNode> numberParser = digit()
-      .plus()
-      .seq(char('.').seq(digit().plus()).optional())
-      .flatten()
-      .trim()
-      .map((a) => NumberNode(double.parse(a)));
+  FormulaParser({Iterable<FormulaAst> variables = const []})
+      : variables = _extractVariableMap(variables);
 
-  // Start the arithmetic parser.
-  // The following is taken from `package:petitparser` README.
-  final builder = ExpressionBuilder();
+  /// Construct the parser, with caching.
+  Parser get formulaParser {
+    if (_formulaParser != null) return _formulaParser!;
 
-  builder.group()
-    ..primitive(numberParser)
-    ..wrapper<String, String>(
+    // Start the arithmetic parser.
+    // The following is taken from `package:petitparser` README.
+    final builder = ExpressionBuilder<AstNode>();
+
+    // Variables have the highest priority.
+    // Take every variable and make a string parser from it.
+    final variableParsers = variables.keys
+        .map((key) => stringIgnoreCase(key)
+            .trim()
+            .map((value) => VariableNode(key, variables[key]!)))
+        .toList(growable: false);
+
+    // Create a choice (OR) parser from all the variable parsers.
+    // variableParsers =
+    //     variableParsers.toChoiceParser(failureJoiner: selectFarthestJoined);
+
+    // Numbers and parenthesis are just a tad down from variables.
+    final Parser<AstNode> numberParser = digit()
+        .plus()
+        .seq(char('.').seq(digit().plus()).optional())
+        .flatten()
+        .trim()
+        .map((a) => NumberNode(double.parse(a)));
+
+    // Top group
+    final topGroup = builder.group();
+    topGroup.primitive(numberParser);
+    for (final parser in variableParsers) {
+      topGroup.primitive(parser);
+    }
+    topGroup.wrapper<String, String>(
       char('(').trim(),
       char(')').trim(),
       (l, a, r) => ParensNode(a),
     );
 
-  // negation is a prefix operator
-  builder.group().prefix<String>(
+    // negation is a prefix operator
+    builder.group().prefix<String>(
+          char('-').trim(),
+          (op, a) => NegativeNode(a),
+        );
+
+    // The range operator is left associative and very high-priority.
+    builder.group().left<String>(char('~').trim(), (a, op, b) {
+      if (a.isStochastic) {
+        throw ArgumentError('Cannot create a range with stochastic start: $a');
+      }
+      if (b.isStochastic) {
+        throw ArgumentError('Cannot create a range with stochastic end: $b');
+      }
+      final aValue = a.emit();
+      final bValue = b.emit();
+      if (aValue == bValue) {
+        print('Warning: range $aValue~$bValue is auto-converted to just '
+            'the value $aValue.');
+        return NumberNode(aValue);
+      }
+      final range = Range(aValue, bValue);
+      return RangeNode(range);
+    });
+
+    // The % postfix (just divides by 100).
+    builder.group()
+      ..postfix(char('%').trim(), (a, op) => ConstantMultipleNode(a, 1 / 100))
+      ..postfix(stringIgnoreCase('K').trim(),
+          (a, op) => ConstantMultipleNode(a, 1000))
+      ..postfix(stringIgnoreCase('M').trim(),
+          (a, op) => ConstantMultipleNode(a, 1000000));
+
+    // TODO: add a +- parser
+
+    // Math functions.
+    // TODO: take more from Excel / Google Spreadsheets: MOD(), POWER(),
+    //       CEILING(), FLOOR(), LOG(), LN(), LOG10() EXP(), SIGN(), POW(),
+    //       ABS(), CLAMP()
+    //       FV(), PV(), PMT(), PPMT(), NPER(), RATE(), EFFECT(),
+    //       NOMINAL(), SLN()
+    //       PI, E, TAU
+    builder.group()
+      ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
+          (l, a, r) => SquareRootFunctionNode(a))
+      ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
+          (l, a, r) => SineFunctionNode(a))
+      ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
+          (l, a, r) => CosineFunctionNode(a))
+      ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
+          (l, a, r) => TangentFunctionNode(a));
+
+    // power is right-associative
+    builder.group().right<String>(
+          [char('^'), string('**')]
+              .toChoiceParser(failureJoiner: selectFarthestJoined)
+              .trim(),
+          (a, op, b) => MathPowerNode(a, b),
+        );
+
+    // multiplication and addition are left-associative
+    builder.group()
+      ..left<String>(
+        [char('*'), char('×'), char('·')]
+            .toChoiceParser(failureJoiner: selectFarthestJoined)
+            .trim(),
+        (a, op, b) => MultiplicationNode(a, b),
+      )
+      ..left<String>(
+        [char('/'), char('÷')]
+            .toChoiceParser(failureJoiner: selectFarthestJoined)
+            .trim(),
+        (a, op, b) => DivisionNode(a, b),
+      );
+    builder.group()
+      ..left<String>(
+        char('+').trim(),
+        (a, op, b) => AdditionNode(a, b),
+      )
+      ..left<String>(
         char('-').trim(),
-        (op, a) => NegativeNode(a),
+        (a, op, b) => SubtractionNode(a, b),
       );
 
-  // The range operator is left associative and very high-priority.
-  builder.group().left(char('~').trim(), (a, dynamic op, b) {
-    // TODO: actually throw when a or b are not stochastic
-    assert(!(a as AstNode).isStochastic);
-    assert(!(b as AstNode).isStochastic);
-    final aValue = (a as AstNode).emit();
-    final bValue = (b as AstNode).emit();
-    if (aValue == bValue) {
-      print('Warning: range $aValue~$bValue is auto-converted to just '
-          'the value $aValue.');
-      return NumberNode(aValue);
+    _formulaParser = builder.build().end();
+    return _formulaParser!;
+  }
+
+  /// Parses [string] (a mathematical formula) and returns the [FormulaAst].
+  ///
+  /// If [variables] are provided, their names can be used in the formula.
+  /// The variables are other, formerly parsed [FormulaAst]s. They should
+  /// be provided in definition order, so that later definitions of a formula
+  /// with the same name will override earlier ones.
+  ///
+  /// If the formula should be its own variable, provide its [name].
+  FormulaAst parseString(String string,
+      {List<FormulaAst> variables = const [], String? name}) {
+    if (name != null) {
+      if (name.isEmpty) {
+        throw ArgumentError('Name of variable cannot be empty');
+      }
+
+      if (name.contains(' ')) {
+        throw ArgumentError('Name of variable cannot have spaces in it: $name');
+      }
     }
-    final range = Range(aValue, bValue);
-    return RangeNode(range);
-  });
 
-  builder.group()
-    ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
-        (dynamic l, a, dynamic r) => SquareRootFunctionNode(a))
-    ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
-        (dynamic l, a, dynamic r) => SineFunctionNode(a))
-    ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
-        (dynamic l, a, dynamic r) => CosineFunctionNode(a))
-    ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
-        (dynamic l, a, dynamic r) => TangentFunctionNode(a));
+    final result = formulaParser.parse(string);
 
-  // power is right-associative
-  builder.group().right<dynamic>(
-        char('^').or(string('**')).trim(),
-        (a, op, b) => MathPowerNode(a, b),
-      );
+    return FormulaAst(
+        result.isFailure ? null : result.value,
+        result.isFailure,
+        result.isFailure ? result.message : null,
+        result.buffer,
+        result.position,
+        name: name);
+  }
 
-  // multiplication and addition are left-associative
-  builder.group()
-    ..left<dynamic>(
-      char('*').or(char('x')).or(char('X')).trim(),
-      (a, op, b) => MultiplicationNode(a, b),
-    )
-    ..left<String>(
-      char('/').trim(),
-      (a, op, b) => DivisionNode(a, b),
-    );
-  builder.group()
-    ..left<String>(
-      char('+').trim(),
-      (a, op, b) => AdditionNode(a, b),
-    )
-    ..left<String>(
-      char('-').trim(),
-      (a, op, b) => SubtractionNode(a, b),
-    );
+  /// Extracts [FormulaParser.variables] (a map) from the given [variables].
+  /// If [variables] contains several formulas with the same [FormulaAst.name],
+  /// then the latest one is use (later definitions override previous ones).
+  ///
+  /// This throws an [ArgumentError] if any of the [variables] has no name.
+  static Map<String, FormulaAst> _extractVariableMap(
+      Iterable<FormulaAst> variables) {
+    final result = <String, FormulaAst>{};
+    for (final variable in variables) {
+      if (variable.name == null) {
+        throw ArgumentError.notNull(
+            'FormulaParser was constructed with a variable with '
+            'no name: $variable');
+      }
+      if (variable.name!.isEmpty) {
+        throw ArgumentError(
+            'FormulaParser was constructed with a variable with '
+            'an empty name');
+      }
 
-  _formulaParser = builder.build().end();
-  return _formulaParser!;
-}
-
-FormulaAst parseString(String string) {
-  final result = formulaParser.parse(string);
-
-  return FormulaAst(result.isFailure ? null : result.value, result.isFailure,
-      result.isFailure ? result.message : null, result.buffer, result.position);
+      result[variable.name!] = variable;
+    }
+    return result;
+  }
 }
