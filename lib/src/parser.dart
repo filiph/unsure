@@ -151,8 +151,7 @@ class FormulaParser {
   /// with the same name will override earlier ones.
   ///
   /// If the formula should be its own variable, provide its [name].
-  FormulaAst parseString(String string,
-      {List<FormulaAst> variables = const [], String? name}) {
+  FormulaAst parseString(String string, {String? name}) {
     if (name != null) {
       if (name.isEmpty) {
         throw ArgumentError('Name of variable cannot be empty');

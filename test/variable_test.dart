@@ -1,5 +1,4 @@
 import 'package:test/test.dart';
-import 'package:unsure/src/ast.dart';
 import 'package:unsure/unsure.dart';
 
 void main() {
