@@ -50,6 +50,16 @@ void main() {
     expect(formula.emit(), 200);
   });
 
+  test('variables are case sensitive' ,  () {
+    var a = FormulaParser().parseString('42', name: 'a');
+    var capitalA = FormulaParser().parseString('-1', name: 'A');
+
+    var nextParser = FormulaParser(variables: [a, capitalA]);
+    var formula = nextParser.parseString('2 * a');
+
+    expect(formula.emit(), 2 * 42);
+  });
+
   group('invalid variable name', () {
     test('empty string', () {
       expect(() => FormulaParser().parseString('42', name: ''),

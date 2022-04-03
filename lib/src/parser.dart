@@ -26,7 +26,7 @@ class FormulaParser {
     // Variables have the highest priority.
     // Take every variable and make a string parser from it.
     final variableParsers = variables.keys
-        .map((key) => stringIgnoreCase(key)
+        .map((key) => string(key)
             .trim()
             .map((value) => VariableNode(key, variables[key]!)))
         .toList(growable: false);
