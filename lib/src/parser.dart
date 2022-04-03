@@ -31,10 +31,6 @@ class FormulaParser {
             .map((value) => VariableNode(key, variables[key]!)))
         .toList(growable: false);
 
-    // Create a choice (OR) parser from all the variable parsers.
-    // variableParsers =
-    //     variableParsers.toChoiceParser(failureJoiner: selectFarthestJoined);
-
     // Numbers and parenthesis are just a tad down from variables.
     final Parser<AstNode> numberParser = digit()
         .plus()
