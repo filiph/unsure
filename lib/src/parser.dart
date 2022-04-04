@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:petitparser/petitparser.dart';
 import 'package:unsure/src/ast.dart';
 import 'package:unsure/src/range.dart';
@@ -12,7 +14,11 @@ class FormulaParser {
   /// The cached instance of the parser.
   Parser? _formulaParser;
 
-  FormulaParser({Iterable<FormulaAst> variables = const []})
+  /// A [Random] instance that can be injected so that the same formula
+  /// always produces the same result.
+  final Random? random;
+
+  FormulaParser({Iterable<FormulaAst> variables = const [], this.random})
       : variables = _extractVariableMap(variables);
 
   /// Construct the parser, with caching.
@@ -72,7 +78,7 @@ class FormulaParser {
             'the value $aValue.');
         return NumberNode(aValue);
       }
-      final range = Range(aValue, bValue);
+      final range = Range(aValue, bValue, random: random);
       return RangeNode(range);
     });
 
