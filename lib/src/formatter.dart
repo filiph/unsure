@@ -1,5 +1,9 @@
 import 'dart:math';
 
+import 'package:meta/meta.dart';
+
+final RegExp _continuousDecimals = RegExp(r'\d+');
+
 /// The list of precision. The [Formatter] algorithm goes from
 /// top to bottom, and tries each precision until it finds a good match.
 final _precisions = <_Precision>[
@@ -87,53 +91,73 @@ final _precisions = <_Precision>[
   ),
   _Precision(
     '343',
-    (n) => n.round().toString(),
+    (n) => addThousandsSeparator(n.round().toString()),
   ),
   _Precision(
     '324.3',
-    (n) => n.toStringAsFixed(1),
+    (n) => addThousandsSeparator(n.toStringAsFixed(1)),
   ),
   _Precision(
     '324.34',
-    (n) => n.toStringAsFixed(2),
+    (n) => addThousandsSeparator(n.toStringAsFixed(2)),
   ),
   _Precision(
     '324.341',
-    (n) => n.toStringAsFixed(3),
+    (n) => addThousandsSeparator(n.toStringAsFixed(3)),
   ),
   _Precision(
     '324.3410',
-    (n) => n.toStringAsFixed(4),
+    (n) => addThousandsSeparator(n.toStringAsFixed(4)),
   ),
   _Precision(
     '324.34104',
-    (n) => n.toStringAsFixed(5),
+    (n) => addThousandsSeparator(n.toStringAsFixed(5)),
   ),
   _Precision(
     '324.341042',
-    (n) => n.toStringAsFixed(6),
+    (n) => addThousandsSeparator(n.toStringAsFixed(6)),
   ),
   _Precision(
     '324.3410423',
-    (n) => n.toStringAsFixed(7),
+    (n) => addThousandsSeparator(n.toStringAsFixed(7)),
   ),
   _Precision(
     '324.34104231',
-    (n) => n.toStringAsFixed(8),
+    (n) => addThousandsSeparator(n.toStringAsFixed(8)),
   ),
   // See [Formatter()] for the least desirable precision (`double.toString`).
 ];
 
+@visibleForTesting
+String addThousandsSeparator(String number) {
+  return number.replaceFirstMapped(_continuousDecimals, (match) {
+    final decimals = match.group(0)!;
+    if (decimals.length < 4) return decimals;
+    int current = 0;
+    int firstStep = decimals.length % 3;
+    final buf = StringBuffer();
+    buf.write(decimals.substring(current, current + firstStep));
+    current += firstStep;
+    while (current < decimals.length) {
+      buf.write(',');
+      buf.write(decimals.substring(current, current + 3));
+
+      current += 3;
+    }
+    return buf.toString();
+  });
+}
+
 /// Returns a string representation of the [number] divided by [divisor].
 /// For example, `_divide(40344, 1000)` becomes `"40"`.
 String _divide(double number, int divisor) {
-  return (number / divisor).round().toString();
+  return addThousandsSeparator((number / divisor).round().toString());
 }
 
 /// Returns a string representation of the [number] quantized by [step].
 /// For example, `_quantize(40344, 50)` becomes `"40350"`.
 String _quantize(double number, int step) {
-  return ((number / step).round() * step).toString();
+  return addThousandsSeparator(((number / step).round() * step).toString());
 }
 
 /// This class will figure out the best way to format a set of numbers
@@ -173,7 +197,8 @@ class Formatter {
         final r = precision.formatFunction(n);
         if (representations.contains(r)) break;
         representations.add(r);
-        cumulativeError += (n - precision.parseBack(r)).abs();
+        cumulativeError +=
+            (n - precision.parseBack(r.replaceAll(',', ''))).abs();
       }
       // ... discard the ones that accrue too large of an error ...
       if (cumulativeError > 0.05 * largestValue) {
