@@ -2,18 +2,19 @@ import 'package:test/test.dart';
 import 'package:unsure/unsure.dart';
 
 void main() {
-  group('Range', () {
+  group('Normal Distribution', () {
     test('normal distribution is normal', () {
-      var r = Range(3, 7);
+      // This is 5±2.
+      var r = NormalDistribution(5, 2);
 
       var n = 100000;
       var possibilities = r.generate().take(n);
       var banded = possibilities.map((n) => n.round());
       var occurrences = _countOccurrences(banded);
 
-      expect(occurrences[5], greaterThan(occurrences[1]!));
-      expect(occurrences[5], greaterThan(occurrences[9]!));
-      expect(occurrences[4], closeTo(occurrences[6]!, n / 100));
+      expect(occurrences[5]!, greaterThan(occurrences[1]!));
+      expect(occurrences[5]!, greaterThan(occurrences[9]!));
+      expect(occurrences[4]!, closeTo(occurrences[6]!, n / 100));
     });
   });
 }

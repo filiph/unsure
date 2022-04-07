@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:petitparser/petitparser.dart';
 import 'package:unsure/src/ast.dart';
+import 'package:unsure/src/normal_distribution.dart';
 import 'package:unsure/src/range.dart';
 
 // ignore_for_file: omit_local_variable_types
@@ -80,6 +81,27 @@ class FormulaParser {
       }
       final range = Range(aValue, bValue, random: random);
       return RangeNode(range);
+    });
+
+    // The normal distribution operator is left associative
+    // and very high-priority. Example: 10+-2
+    builder.group().left<String>(
+        [string('+-'), char('±')].toChoiceParser().trim(), (a, op, b) {
+      if (a.isStochastic) {
+        throw ArgumentError('Cannot create a range with stochastic start: $a');
+      }
+      if (b.isStochastic) {
+        throw ArgumentError('Cannot create a range with stochastic end: $b');
+      }
+      final aValue = a.emit();
+      final bValue = b.emit();
+      if (aValue == bValue) {
+        print('Warning: range $aValue+-$bValue is auto-converted to just '
+            'the value $aValue.');
+        return NumberNode(aValue);
+      }
+      final ndist = NormalDistribution(aValue, bValue, random: random);
+      return NormalDistributionNode(ndist);
     });
 
     // The % postfix (just divides by 100).

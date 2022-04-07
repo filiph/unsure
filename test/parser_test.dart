@@ -10,7 +10,7 @@ void main() {
       parser = FormulaParser();
     });
 
-    test('no range', () {
+    test('no uncertainty', () {
       var formula = parser.parseString('1 + 2');
 
       expect(formula.isStochastic, isFalse);
@@ -47,6 +47,14 @@ void main() {
 
       var a = formula.emit();
       expect(a, greaterThan(500));
+    });
+
+    test('parses ndist', () {
+      var formula = parser.parseString('1000+-5');
+
+      expect(formula.isStochastic, isTrue);
+      var a = formula.emit();
+      expect(a, closeTo(1000, 20));
     });
 
     test('parses Python-style exponentiation', () {

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:unsure/src/normal_distribution.dart';
 import 'package:unsure/src/range.dart';
 
 class AdditionNode extends MathOperationNode {
@@ -16,7 +17,7 @@ abstract class AstNode {
   /// This is `true` if the node can emit different values randomly.
   ///
   /// For example, a [NumberNode] (such as: `5`) is not stochastic, because
-  /// it always evaluates to 5. On the other hand, a [RangeNode] will
+  /// it always evaluates to 5. On the other hand, a [NormalDistributionNode] will
   /// be stochastic.
   ///
   /// Nodes can defer to their children to find out if they are stochastic
@@ -25,7 +26,7 @@ abstract class AstNode {
 
   /// Generates a number.
   ///
-  /// For example, a random [Range] will generate numbers given by its
+  /// For example, a random [NormalDistribution] will generate numbers given by its
   /// probability distribution. A constant will always emit its own value.
   /// A multiplication node will ask its children to emit a number, then
   /// returns the product of those numbers. And so on.
@@ -175,6 +176,18 @@ class ParensNode extends AstNode {
   double emit() => child.emit();
 }
 
+class NormalDistributionNode extends AstNode {
+  final NormalDistribution range;
+
+  const NormalDistributionNode(this.range);
+
+  @override
+  bool get isStochastic => true;
+
+  @override
+  double emit() => range.next();
+}
+
 class RangeNode extends AstNode {
   final Range range;
 
@@ -184,7 +197,7 @@ class RangeNode extends AstNode {
   bool get isStochastic => true;
 
   @override
-  double emit() => range.next();
+  double emit() => range.emit();
 }
 
 class SineFunctionNode extends MathFunctionNode {

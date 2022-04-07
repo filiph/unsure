@@ -1,3 +1,11 @@
+## 0.4.0
+
+- BRAKING: `x~y` (read: range from `x` to `y`) now means 
+  "flat distribution from x to y". Every value between `x` and `y` is as likely
+  to be emitted.
+- For normal distribution, you can now use `x+-d`, which puts the mean at `x`,
+  and the 95% (2 sigma) bounds at distance `d` from `x`.
+
 ## 0.3.0
 
 - Introduce variables: a formula can point to a previously parsed formula
