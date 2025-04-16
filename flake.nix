@@ -25,7 +25,7 @@
             pubspecLock = lib.importJSON ./pubspec.lock.json;
           };
         in {
-          defaultPackage = unsure;
+          packages.default = unsure;
           packages.unsure = unsure;
           devShells.default = mkShell {
             buildInputs = [
