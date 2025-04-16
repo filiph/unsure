@@ -70,6 +70,11 @@ you can just run `unsure` as a regular command line program from anywhere.
 
 Run it with `nix`:
 ```shell
+nix run github:/filiph/unsure
+```
+
+Or when in the directory:
+```shell
 nix run .#unsure
 ```
 
