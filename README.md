@@ -68,6 +68,10 @@ Or, if you have the Flutter SDK installed:
 You might need to follow instructions that `pub` gives you, but after that,
 you can just run `unsure` as a regular command line program from anywhere.
 
+Run it with `nix`:
+```shell
+  nix run .#unsure
+```
 
 ## Package
 
