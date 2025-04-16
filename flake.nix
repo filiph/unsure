@@ -25,8 +25,16 @@
             pubspecLock = lib.importJSON ./pubspec.lock.json;
           };
         in {
-          packages.default = unsure;
-          packages.unsure = unsure;
+          packages = rec {
+            default = unsure;
+            unsure = unsure;
+          };
+          apps = rec {
+            unsure = utils.lib.mkApp{
+              rdv = self.packages.${system}.unsure;
+            };
+            default = unsure;
+          };
           devShells.default = mkShell {
             buildInputs = [
               dart
