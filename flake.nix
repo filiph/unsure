@@ -7,6 +7,7 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
     ...
@@ -25,13 +26,13 @@
             pubspecLock = lib.importJSON ./pubspec.lock.json;
           };
         in {
-          packages = rec {
+          packages = {
             default = unsure;
             unsure = unsure;
           };
           apps = rec {
-            unsure = utils.lib.mkApp{
-              rdv = self.packages.${system}.unsure;
+            unsure = flake-utils.lib.mkApp {
+              drv = self.packages.${system}.unsure;
             };
             default = unsure;
           };
