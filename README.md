@@ -70,7 +70,7 @@ you can just run `unsure` as a regular command line program from anywhere.
 
 Run it with `nix`:
 ```shell
-  nix run .#unsure
+nix run .#unsure
 ```
 
 ## Package
