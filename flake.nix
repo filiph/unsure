@@ -12,23 +12,27 @@
     ...
   }:
     flake-utils.lib.eachDefaultSystem (
-      system: with nixpkgs; {
-        packages.unsure = nixpkgs.outputs.legacyPackages.${system}.buildDartApplication rec {
-          pname = "unsure";
-          name = pname;
-          version = "0.4.0";
+      system:
+        with nixpkgs; let
+          unsure = nixpkgs.outputs.legacyPackages.${system}.buildDartApplication rec {
+            pname = "unsure";
+            name = pname;
+            version = "0.4.0";
 
-          src = ./.;
+            src = ./.;
 
-          # Convert lockfile with `yq . pubspec.lock >"pubspec.lock.json"`
-          pubspecLock = lib.importJSON ./pubspec.lock.json;
-        };
-        devShells.default = mkShell {
-          buildInputs = [
-            dart
-            yq # To convert the lockfile to json
-          ];
-        };
-      }
+            # Convert lockfile with `yq . pubspec.lock >"pubspec.lock.json"`
+            pubspecLock = lib.importJSON ./pubspec.lock.json;
+          };
+        in {
+          defaultPackage = unsure;
+          packages.unsure = unsure;
+          devShells.default = mkShell {
+            buildInputs = [
+              dart
+              yq # To convert the lockfile to json
+            ];
+          };
+        }
     );
 }
