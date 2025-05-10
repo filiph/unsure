@@ -15,6 +15,9 @@
     flake-utils.lib.eachDefaultSystem (
       system:
         with nixpkgs; let
+          pkgs = import nixpkgs {
+            inherit system;
+          };
           unsure = nixpkgs.outputs.legacyPackages.${system}.buildDartApplication rec {
             pname = "unsure";
             name = pname;
@@ -36,8 +39,8 @@
             };
             default = unsure;
           };
-          devShells.default = mkShell {
-            buildInputs = [
+          devShells.default = pkgs.mkShell {
+            buildInputs = with pkgs; [
               dart
               yq # To convert the lockfile to json
             ];
