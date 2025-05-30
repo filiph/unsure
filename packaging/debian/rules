@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	dart pub get
+	dart compile exe bin/unsure.dart -o unsure
+
+override_dh_auto_install:
+	mkdir -p debian/unsure/usr/bin
+	cp unsure debian/unsure/usr/bin/ 

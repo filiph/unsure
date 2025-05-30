@@ -2,6 +2,61 @@
 
 [![Build Status - Cirrus][]][Build status]
 
+A calculator for numbers with uncertainty. Try it online at 
+[filiph.github.io/unsure][webapp] or install it locally using the instructions below.
+
+## 🚀 Easy Installation (No Dart/Flutter Required!)
+
+### One-Line Install (Linux/macOS)
+```bash
+curl -sSL https://raw.githubusercontent.com/filiph/unsure/main/install.sh | bash
+```
+
+### Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/filiph/unsure/main/install.ps1 | iex
+```
+
+### Package Managers
+
+#### Homebrew (macOS/Linux)
+```bash
+# Add the tap (one-time setup)
+brew tap filiph/unsure https://github.com/filiph/unsure
+# Install
+brew install unsure
+```
+
+#### Snap (Linux)
+```bash
+sudo snap install unsure
+```
+
+#### Manual Download
+Download the latest binary for your platform from the [releases page](https://github.com/filiph/unsure/releases/latest):
+- **Linux**: `unsure-linux`
+- **macOS**: `unsure-macos`  
+- **Windows**: `unsure-windows.exe`
+
+Place the binary in your PATH and make it executable (Linux/macOS: `chmod +x unsure-*`).
+
+## 📖 Quick Start
+
+Once installed, try these examples:
+
+```bash
+# Basic uncertain calculation
+unsure "4~6 * 2~3"
+
+# More complex formula
+unsure "100 / (2~5 + 3~7)"
+
+# With percentiles and histogram
+unsure --percentiles "10~20 * 0.8~1.2"
+```
+
+## 💻 Advanced Installation (For Developers)
+
 If you want to run the Unsure Calculator from source, this repository
 is for you. Otherwise, please go to 
 [filiph.github.io/unsure][webapp] to learn more

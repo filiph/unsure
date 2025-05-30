@@ -1,0 +1,41 @@
+name: unsure
+version: '0.4.0'
+summary: Calculator for numbers with uncertainty
+description: |
+  The Unsure Calculator allows you to perform calculations with uncertain numbers.
+  Use the ~ operator to specify ranges (e.g., "4~6 * 2~3") and get statistical
+  results including histograms and confidence intervals.
+
+grade: stable
+confinement: strict
+base: core22
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  unsure:
+    command: bin/unsure
+    plugs:
+      - home
+      - network
+
+parts:
+  unsure:
+    plugin: nil
+    source: .
+    build-packages:
+      - wget
+      - unzip
+    override-build: |
+      # Download and install Dart SDK
+      wget -O dart-sdk.zip https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip
+      unzip dart-sdk.zip
+      export PATH="$PWD/dart-sdk/bin:$PATH"
+      
+      # Build the application
+      dart pub get
+      dart compile exe bin/unsure.dart -o $SNAPCRAFT_PART_INSTALL/bin/unsure
+    organize:
+      bin/unsure: bin/unsure 

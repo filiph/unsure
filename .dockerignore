@@ -1,0 +1,34 @@
+# Build artifacts
+.dart_tool/
+.packages
+pubspec.lock
+build/
+
+# Development files
+.git/
+.gitignore
+.idea/
+*.iml
+
+# Documentation
+README.md
+CHANGELOG.md
+doc/
+
+# Examples and tests
+example/
+test/
+
+# CI/CD
+.github/
+.cirrus.yml
+
+# Package management files
+packaging/
+Formula/
+install.sh
+install.ps1
+
+# Docker files (don't include self)
+Dockerfile
+.dockerignore 
