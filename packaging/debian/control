@@ -1,0 +1,19 @@
+Source: unsure
+Section: utils
+Priority: optional
+Maintainer: Filip Hracek <filip.hracek@gmail.com>
+Build-Depends: debhelper (>= 10), dart (>= 2.16.0)
+Standards-Version: 4.1.2
+Homepage: https://github.com/filiph/unsure
+
+Package: unsure
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Calculator for numbers with uncertainty
+ The Unsure Calculator allows you to perform calculations with uncertain 
+ numbers using a simple probabilistic notation. Use the ~ operator to 
+ specify ranges (e.g., "4~6 * 2~3") and get statistical results including 
+ histograms and confidence intervals.
+ .
+ This package provides a command-line tool for performing calculations
+ with uncertain inputs and getting probabilistic results. 
