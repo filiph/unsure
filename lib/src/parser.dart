@@ -46,13 +46,12 @@ class FormulaParser {
         .trim()
         .map((a) => NumberNode(double.parse(a)));
 
-    // Top group
-    final topGroup = builder.group();
-    topGroup.primitive(numberParser);
+    // Primitives
+    builder.primitive(numberParser);
     for (final parser in variableParsers) {
-      topGroup.primitive(parser);
+      builder.primitive(parser);
     }
-    topGroup.wrapper<String, String>(
+    builder.group().wrapper<String, String>(
       char('(').trim(),
       char(')').trim(),
       (l, a, r) => ParensNode(a),
@@ -107,9 +106,9 @@ class FormulaParser {
     // The % postfix (just divides by 100).
     builder.group()
       ..postfix(char('%').trim(), (a, op) => ConstantMultipleNode(a, 1 / 100))
-      ..postfix(stringIgnoreCase('K').trim(),
+      ..postfix(pattern('kK').trim(),
           (a, op) => ConstantMultipleNode(a, 1000))
-      ..postfix(stringIgnoreCase('M').trim(),
+      ..postfix(pattern('mM').trim(),
           (a, op) => ConstantMultipleNode(a, 1000000));
 
     // TODO: add a +- parser
@@ -122,13 +121,13 @@ class FormulaParser {
     //       NOMINAL(), SLN()
     //       PI, E, TAU
     builder.group()
-      ..wrapper(stringIgnoreCase('sqrt(').trim(), char(')').trim(),
+      ..wrapper(pattern('sS').seq(pattern('qQ')).seq(pattern('rR')).seq(pattern('tT')).seq(char('(')).trim(), char(')').trim(),
           (l, a, r) => SquareRootFunctionNode(a))
-      ..wrapper(stringIgnoreCase('sin(').trim(), char(')').trim(),
+      ..wrapper(pattern('sS').seq(pattern('iI')).seq(pattern('nN')).seq(char('(')).trim(), char(')').trim(),
           (l, a, r) => SineFunctionNode(a))
-      ..wrapper(stringIgnoreCase('cos(').trim(), char(')').trim(),
+      ..wrapper(pattern('cC').seq(pattern('oO')).seq(pattern('sS')).seq(char('(')).trim(), char(')').trim(),
           (l, a, r) => CosineFunctionNode(a))
-      ..wrapper(stringIgnoreCase('tan(').trim(), char(')').trim(),
+      ..wrapper(pattern('tT').seq(pattern('aA')).seq(pattern('nN')).seq(char('(')).trim(), char(')').trim(),
           (l, a, r) => TangentFunctionNode(a));
 
     // power is right-associative
@@ -189,9 +188,9 @@ class FormulaParser {
     final result = formulaParser.parse(string);
 
     return FormulaAst(
-        result.isFailure ? null : result.value,
-        result.isFailure,
-        result.isFailure ? result.message : null,
+        result is Success ? result.value : null,
+        result is Failure,
+        result is Failure ? result.message : null,
         result.buffer,
         result.position,
         name: name);

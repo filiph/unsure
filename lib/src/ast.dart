@@ -4,7 +4,7 @@ import 'package:unsure/src/normal_distribution.dart';
 import 'package:unsure/src/range.dart';
 
 class AdditionNode extends MathOperationNode {
-  AdditionNode(AstNode a, AstNode b) : super(a, b);
+  AdditionNode(super.a, super.b);
 
   @override
   double compute(double a, double b) => a + b;
@@ -50,14 +50,14 @@ class ConstantMultipleNode extends AstNode {
 }
 
 class CosineFunctionNode extends MathFunctionNode {
-  CosineFunctionNode(AstNode a) : super(a);
+  CosineFunctionNode(super.a);
 
   @override
   double compute(double a) => math.cos(a / 180 * math.pi);
 }
 
 class DivisionNode extends MathOperationNode {
-  DivisionNode(AstNode a, AstNode b) : super(a, b);
+  DivisionNode(super.a, super.b);
 
   @override
   double compute(double a, double b) => a / b;
@@ -133,7 +133,7 @@ class MathPowerNode extends AstNode {
 }
 
 class MultiplicationNode extends MathOperationNode {
-  MultiplicationNode(AstNode a, AstNode b) : super(a, b);
+  MultiplicationNode(super.a, super.b);
 
   @override
   double compute(double a, double b) => a * b;
@@ -201,28 +201,28 @@ class RangeNode extends AstNode {
 }
 
 class SineFunctionNode extends MathFunctionNode {
-  SineFunctionNode(AstNode a) : super(a);
+  SineFunctionNode(super.a);
 
   @override
   double compute(double a) => math.sin(a / 180 * math.pi);
 }
 
 class SquareRootFunctionNode extends MathFunctionNode {
-  SquareRootFunctionNode(AstNode a) : super(a);
+  SquareRootFunctionNode(super.a);
 
   @override
   double compute(double a) => math.sqrt(a);
 }
 
 class SubtractionNode extends MathOperationNode {
-  SubtractionNode(AstNode a, AstNode b) : super(a, b);
+  SubtractionNode(super.a, super.b);
 
   @override
   double compute(double a, double b) => a - b;
 }
 
 class TangentFunctionNode extends MathFunctionNode {
-  TangentFunctionNode(AstNode a) : super(a);
+  TangentFunctionNode(super.a);
 
   @override
   double compute(double a) => math.tan(a / 180 * math.pi);

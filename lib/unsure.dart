@@ -1,5 +1,5 @@
 /// Support for doing uncertain computation.
-library unsure;
+library;
 
 export 'src/ast.dart' show FormulaAst;
 export 'src/calculation.dart';

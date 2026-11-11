@@ -1,3 +1,9 @@
+## 0.5.0
+
+- Upgrade SDK constraint to Dart 3 (`>=3.14.0-0 <4.0.0`)
+- Upgrade dependencies: `petitparser` to `^7.1.0`, `t_stats` to `^4.0.0`, `lints` to `^6.0.0`
+- Adopt modern linter recommendations and super parameters
+
 ## 0.4.0
 
 - BRAKING: `x~y` (read: range from `x` to `y`) now means 

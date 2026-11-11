@@ -9,72 +9,72 @@ final RegExp _continuousDecimals = RegExp(r'\d+');
 final _precisions = <_Precision>[
   _Precision(
     '350B',
-    (n) => _quantize(n / 1000000000, 50) + 'B',
+    (n) => '${_quantize(n / 1000000000, 50)}B',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '340B',
-    (n) => _quantize(n / 1000000000, 10) + 'B',
+    (n) => '${_quantize(n / 1000000000, 10)}B',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '345B',
-    (n) => _quantize(n / 1000000000, 5) + 'B',
+    (n) => '${_quantize(n / 1000000000, 5)}B',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '5B',
-    (n) => _divide(n, 1000000000) + 'B',
+    (n) => '${_divide(n, 1000000000)}B',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '4.2B',
-    (n) => (n / 1000000000).toStringAsFixed(1) + 'B',
+    (n) => '${(n / 1000000000).toStringAsFixed(1)}B',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000000,
   ),
   _Precision(
     '350M',
-    (n) => _quantize(n / 1000000, 50) + 'M',
+    (n) => '${_quantize(n / 1000000, 50)}M',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '340M',
-    (n) => _quantize(n / 1000000, 10) + 'M',
+    (n) => '${_quantize(n / 1000000, 10)}M',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '345M',
-    (n) => _quantize(n / 1000000, 5) + 'M',
+    (n) => '${_quantize(n / 1000000, 5)}M',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '5M',
-    (n) => _divide(n, 1000000) + 'M',
+    (n) => '${_divide(n, 1000000)}M',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '4.2M',
-    (n) => (n / 1000000).toStringAsFixed(1) + 'M',
+    (n) => '${(n / 1000000).toStringAsFixed(1)}M',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000000,
   ),
   _Precision(
     '350K',
-    (n) => _quantize(n / 1000, 50) + 'K',
+    (n) => '${_quantize(n / 1000, 50)}K',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '340K',
-    (n) => _quantize(n / 1000, 10) + 'K',
+    (n) => '${_quantize(n / 1000, 10)}K',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '345K',
-    (n) => _quantize(n / 1000, 5) + 'K',
+    (n) => '${_quantize(n / 1000, 5)}K',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
     '343K',
-    (n) => _divide(n, 1000) + 'K',
+    (n) => '${_divide(n, 1000)}K',
     (s) => double.parse(s.substring(0, s.length - 1)) * 1000,
   ),
   _Precision(
