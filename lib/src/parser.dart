@@ -52,10 +52,10 @@ class FormulaParser {
       builder.primitive(parser);
     }
     builder.group().wrapper<String, String>(
-      char('(').trim(),
-      char(')').trim(),
-      (l, a, r) => ParensNode(a),
-    );
+          char('(').trim(),
+          char(')').trim(),
+          (l, a, r) => ParensNode(a),
+        );
 
     // negation is a prefix operator
     builder.group().prefix<String>(
@@ -94,7 +94,7 @@ class FormulaParser {
       }
       final aValue = a.emit();
       final bValue = b.emit();
-      if (aValue == bValue) {
+      if (bValue == 0) {
         print('Warning: range $aValue+-$bValue is auto-converted to just '
             'the value $aValue.');
         return NumberNode(aValue);
@@ -106,10 +106,9 @@ class FormulaParser {
     // The % postfix (just divides by 100).
     builder.group()
       ..postfix(char('%').trim(), (a, op) => ConstantMultipleNode(a, 1 / 100))
-      ..postfix(pattern('kK').trim(),
-          (a, op) => ConstantMultipleNode(a, 1000))
-      ..postfix(pattern('mM').trim(),
-          (a, op) => ConstantMultipleNode(a, 1000000));
+      ..postfix(pattern('kK').trim(), (a, op) => ConstantMultipleNode(a, 1000))
+      ..postfix(
+          pattern('mM').trim(), (a, op) => ConstantMultipleNode(a, 1000000));
 
     // TODO: add a +- parser
 
@@ -121,13 +120,38 @@ class FormulaParser {
     //       NOMINAL(), SLN()
     //       PI, E, TAU
     builder.group()
-      ..wrapper(pattern('sS').seq(pattern('qQ')).seq(pattern('rR')).seq(pattern('tT')).seq(char('(')).trim(), char(')').trim(),
+      ..wrapper(
+          pattern('sS')
+              .seq(pattern('qQ'))
+              .seq(pattern('rR'))
+              .seq(pattern('tT'))
+              .seq(char('('))
+              .trim(),
+          char(')').trim(),
           (l, a, r) => SquareRootFunctionNode(a))
-      ..wrapper(pattern('sS').seq(pattern('iI')).seq(pattern('nN')).seq(char('(')).trim(), char(')').trim(),
+      ..wrapper(
+          pattern('sS')
+              .seq(pattern('iI'))
+              .seq(pattern('nN'))
+              .seq(char('('))
+              .trim(),
+          char(')').trim(),
           (l, a, r) => SineFunctionNode(a))
-      ..wrapper(pattern('cC').seq(pattern('oO')).seq(pattern('sS')).seq(char('(')).trim(), char(')').trim(),
+      ..wrapper(
+          pattern('cC')
+              .seq(pattern('oO'))
+              .seq(pattern('sS'))
+              .seq(char('('))
+              .trim(),
+          char(')').trim(),
           (l, a, r) => CosineFunctionNode(a))
-      ..wrapper(pattern('tT').seq(pattern('aA')).seq(pattern('nN')).seq(char('(')).trim(), char(')').trim(),
+      ..wrapper(
+          pattern('tT')
+              .seq(pattern('aA'))
+              .seq(pattern('nN'))
+              .seq(char('('))
+              .trim(),
+          char(')').trim(),
           (l, a, r) => TangentFunctionNode(a));
 
     // power is right-associative

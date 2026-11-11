@@ -31,7 +31,8 @@ Future<int> main(List<String> args) async {
   // Show a simple result for formulas that include no uncertainty.
   if (!formula.isStochastic) {
     final value = formula.emit();
-    final formatter = Formatter([value, value * 0.95, value * 1.05]);
+    final formatter = Formatter(
+        value == 0 ? [0.0, 1.0] : [value, value * 0.95, value * 1.05]);
     final valueString = formatter.format(value);
 
     if (argResults['padding']) {
@@ -61,7 +62,9 @@ Future<int> main(List<String> args) async {
     print(result.simple);
   }
 
-  if (argResults['histogram'] && !result.isInvalid) {
+  if (argResults['histogram'] &&
+      !result.isInvalid &&
+      result.histogram != null) {
     if (!argResults['padding']) {
       // The result itself doesn't have padding, so we need to add it here.
       print('');

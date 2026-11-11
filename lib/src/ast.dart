@@ -43,10 +43,13 @@ class ConstantMultipleNode extends AstNode {
   ConstantMultipleNode(this.a, this.k);
 
   @override
-  bool get isStochastic => a.isStochastic;
+  bool get isStochastic => k != 0 && a.isStochastic;
 
   @override
-  double emit() => a.emit() * k;
+  double emit() {
+    if (k == 0) return 0;
+    return a.emit() * k;
+  }
 }
 
 class CosineFunctionNode extends MathFunctionNode {
@@ -60,7 +63,23 @@ class DivisionNode extends MathOperationNode {
   DivisionNode(super.a, super.b);
 
   @override
+  bool get isStochastic {
+    if (!a.isStochastic && a.emit() == 0) return false;
+    return a.isStochastic || b.isStochastic;
+  }
+
+  @override
   double compute(double a, double b) => a / b;
+
+  @override
+  double emit() {
+    if (!a.isStochastic) {
+      final aVal = a.emit();
+      if (aVal == 0) return 0;
+      return compute(aVal, b.emit());
+    }
+    return super.emit();
+  }
 }
 
 class FormulaAst implements AstNode {
@@ -126,17 +145,57 @@ class MathPowerNode extends AstNode {
   const MathPowerNode(this.x, this.exponent);
 
   @override
-  bool get isStochastic => x.isStochastic || exponent.isStochastic;
+  bool get isStochastic {
+    if (!exponent.isStochastic && exponent.emit() == 0) return false;
+    if (!x.isStochastic) {
+      final xVal = x.emit();
+      if (xVal == 1 || xVal == 0) return false;
+    }
+    return x.isStochastic || exponent.isStochastic;
+  }
 
   @override
-  double emit() => math.pow(x.emit(), exponent.emit()) as double;
+  double emit() {
+    if (!exponent.isStochastic) {
+      final expVal = exponent.emit();
+      if (expVal == 0) return 1;
+    }
+    if (!x.isStochastic) {
+      final xVal = x.emit();
+      if (xVal == 1) return 1;
+      if (xVal == 0) return 0;
+    }
+    return math.pow(x.emit(), exponent.emit()) as double;
+  }
 }
 
 class MultiplicationNode extends MathOperationNode {
   MultiplicationNode(super.a, super.b);
 
   @override
+  bool get isStochastic {
+    if (!a.isStochastic && a.emit() == 0) return false;
+    if (!b.isStochastic && b.emit() == 0) return false;
+    return a.isStochastic || b.isStochastic;
+  }
+
+  @override
   double compute(double a, double b) => a * b;
+
+  @override
+  double emit() {
+    if (!a.isStochastic) {
+      final aVal = a.emit();
+      if (aVal == 0) return 0;
+      return compute(aVal, b.emit());
+    }
+    if (!b.isStochastic) {
+      final bVal = b.emit();
+      if (bVal == 0) return 0;
+      return compute(a.emit(), bVal);
+    }
+    return super.emit();
+  }
 }
 
 class NegativeNode extends AstNode {
@@ -182,7 +241,7 @@ class NormalDistributionNode extends AstNode {
   const NormalDistributionNode(this.range);
 
   @override
-  bool get isStochastic => true;
+  bool get isStochastic => range.standardDeviation != 0;
 
   @override
   double emit() => range.next();
@@ -194,7 +253,7 @@ class RangeNode extends AstNode {
   const RangeNode(this.range);
 
   @override
-  bool get isStochastic => true;
+  bool get isStochastic => range.minimum != range.maximum;
 
   @override
   double emit() => range.emit();

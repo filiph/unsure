@@ -16,7 +16,7 @@ class NormalDistribution {
 
   NormalDistribution._(this.minimum, this.maximum, {Random? random})
       : assert(
-            minimum < maximum,
+            minimum <= maximum,
             'Minimum must be lower than maximum: '
             'minimumum=$minimum, maximum=$maximum'),
         // In normal distribution, the mean is simply half-way between
@@ -31,7 +31,7 @@ class NormalDistribution {
   }
 
   NormalDistribution(double value, double distance, {Random? random})
-    : this._(value - distance, value + distance, random: random);
+      : this._(value - distance, value + distance, random: random);
 
   double get variance => standardDeviation * standardDeviation;
 

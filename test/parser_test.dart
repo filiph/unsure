@@ -150,5 +150,55 @@ void main() {
 
       expect(formula.wasFailure, isTrue);
     });
+
+    group('provably deterministic terms', () {
+      test('multiplication with zero is deterministic (0 * range)', () {
+        var formula = parser.parseString('0 * 1~2');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 0);
+      });
+
+      test('multiplication with zero is deterministic (range * 0)', () {
+        var formula = parser.parseString('12~15 * 0');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 0);
+      });
+
+      test('power with base 1 is deterministic (1 ^ range)', () {
+        var formula = parser.parseString('1 ^ 1~2');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 1);
+      });
+
+      test('power with exponent 0 is deterministic (range ^ 0)', () {
+        var formula = parser.parseString('(2~5) ^ 0');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 1);
+      });
+
+      test('division with numerator 0 is deterministic (0 / range)', () {
+        var formula = parser.parseString('0 / 1~2');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 0);
+      });
+
+      test('constant multiple of 0 is deterministic', () {
+        var formula = parser.parseString('(1~2) * 0%');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 0);
+      });
+
+      test('degenerate range N~N is deterministic', () {
+        var formula = parser.parseString('5~5');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 5);
+      });
+
+      test('degenerate normal distribution N+-0 is deterministic', () {
+        var formula = parser.parseString('5+-0');
+        expect(formula.isStochastic, isFalse);
+        expect(formula.emit(), 5);
+      });
+    });
   });
 }

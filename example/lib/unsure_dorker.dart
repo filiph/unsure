@@ -41,7 +41,8 @@ class UnsureDorker {
 
     if (!formula.isStochastic) {
       var value = formula.emit();
-      final formatter = Formatter([value, value * 0.95, value * 1.05]);
+      final formatter = Formatter(
+          value == 0 ? [0.0, 1.0] : [value, value * 0.95, value * 1.05]);
       final valueString = formatter.format(value);
       var message = NonStochasticResultMessage(valueString);
       _dorker.postMessage.add(message.toData());
@@ -57,8 +58,8 @@ class UnsureDorker {
       return;
     }
 
-    var message = StochasticResultMessage(
-        result.simple, result.histogram.toString(), result.percentilesString);
+    var message = StochasticResultMessage(result.simple,
+        result.histogram?.toString() ?? '', result.percentilesString);
     _dorker.postMessage.add(message.toData());
   }
 }

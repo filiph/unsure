@@ -17,7 +17,7 @@ class Range {
 
   Range(this.minimum, this.maximum, {Random? random})
       : assert(
-            minimum < maximum,
+            minimum <= maximum,
             'Minimum must be lower than maximum: '
             'minimumum=$minimum, maximum=$maximum'),
         distance = maximum - minimum,

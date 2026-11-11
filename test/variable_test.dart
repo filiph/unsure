@@ -50,7 +50,7 @@ void main() {
     expect(formula.emit(), 200);
   });
 
-  test('variables are case sensitive' ,  () {
+  test('variables are case sensitive', () {
     var a = FormulaParser().parseString('42', name: 'a');
     var capitalA = FormulaParser().parseString('-1', name: 'A');
 

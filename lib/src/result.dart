@@ -71,7 +71,19 @@ class Result {
   /// not-a-number (like, for example, in the case of `100~101 / 0`).
   bool get isInvalid => singleInvalidValue != null;
 
+  /// This is `true` if all sampled results evaluated to the exact same value
+  /// (zero variance).
+  bool get isDegenerate =>
+      statistic != null && statistic!.min == statistic!.max;
+
   String get percentilesString {
+    if (isDegenerate) {
+      final val = percentiles![0];
+      final formatter =
+          Formatter(val == 0 ? [0.0, 1.0] : [val, val * 0.95, val * 1.05]);
+      return 'All percentiles are ${formatter.format(val)}.\n';
+    }
+
     final buf = StringBuffer();
 
     var printedPercentiles = <int, double>{};
@@ -107,6 +119,13 @@ class Result {
   String get simple {
     if (singleInvalidValue != null) {
       return '$singleInvalidValue';
+    }
+
+    if (isDegenerate) {
+      final val = with2StandardDeviations!.lower;
+      final formatter =
+          Formatter(val == 0 ? [0.0, 1.0] : [val, val * 0.95, val * 1.05]);
+      return formatter.format(val);
     }
 
     final formatter = Formatter(

@@ -19,4 +19,27 @@ void main() {
     expect(() => result = calculation.run(), returnsNormally);
     expect(result.isInvalid, isTrue);
   });
+
+  group('degenerate distribution', () {
+    test('handles zero-variance simulation results gracefully', () {
+      // Simulate an unprovable stochastic function that always produces 0.
+      var calculation = Calculation(() => 0.0, iterations: 1000);
+      var result = calculation.run();
+
+      expect(result.isDegenerate, isTrue);
+      expect(result.simple, '0');
+      expect(result.histogram, isNull);
+      expect(result.percentilesString, contains('All percentiles are 0.'));
+    });
+
+    test('handles zero-variance non-zero simulation results', () {
+      var calculation = Calculation(() => 42.0, iterations: 1000);
+      var result = calculation.run();
+
+      expect(result.isDegenerate, isTrue);
+      expect(result.simple, '42');
+      expect(result.histogram, isNull);
+      expect(result.percentilesString, contains('All percentiles are 42.'));
+    });
+  });
 }

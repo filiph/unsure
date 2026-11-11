@@ -70,7 +70,10 @@ class Calculation {
     }
     percentiles[100] = results.last;
 
-    var histogram = _computeHistogram(results, percentiles);
+    var isDegenerate = results.isNotEmpty && results.first == results.last;
+
+    var histogram =
+        isDegenerate ? null : _computeHistogram(results, percentiles);
 
     var confidences = _computeConfidences(results);
 
