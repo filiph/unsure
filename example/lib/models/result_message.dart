@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-abstract class BaseResultMessage {
+sealed class BaseResultMessage {
   String get simpleResult;
 
   String toData();
 
   static BaseResultMessage fromData(String message) {
-    var object = Map<String, String>.from(json.decode(message));
+    var object = Map<String, String>.from(json.decode(message) as Map);
     switch (object['type']) {
       case NonStochasticResultMessage.typeName:
         return NonStochasticResultMessage.fromData(object);
@@ -31,7 +31,7 @@ class FailureResultMessage extends BaseResultMessage {
   FailureResultMessage(this.message);
 
   FailureResultMessage.fromData(Map<String, String> object)
-      : message = object['message'];
+      : message = object['message'] ?? '';
 
   @override
   String get simpleResult => 'ERROR';
@@ -56,7 +56,7 @@ class InvalidResultMessage extends BaseResultMessage {
   InvalidResultMessage(this.simpleResult);
 
   InvalidResultMessage.fromData(Map<String, String> object)
-      : simpleResult = object['simpleResult'];
+      : simpleResult = object['simpleResult'] ?? '';
 
   @override
   String toData() {
@@ -77,7 +77,7 @@ class NonStochasticResultMessage extends BaseResultMessage {
   NonStochasticResultMessage(this.simpleResult);
 
   NonStochasticResultMessage.fromData(Map<String, String> object)
-      : simpleResult = object['simpleResult'];
+      : simpleResult = object['simpleResult'] ?? '';
 
   @override
   String toData() {
@@ -102,9 +102,9 @@ class StochasticResultMessage extends BaseResultMessage {
   StochasticResultMessage(this.simpleResult, this.histogram, this.percentiles);
 
   StochasticResultMessage.fromData(Map<String, String> object)
-      : simpleResult = object['simpleResult'],
-        histogram = object['histogram'],
-        percentiles = object['percentiles'];
+      : simpleResult = object['simpleResult'] ?? '',
+        histogram = object['histogram'] ?? '',
+        percentiles = object['percentiles'] ?? '';
 
   @override
   String toData() {
