@@ -1,6 +1,9 @@
+import 'dart:js_interop';
+
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:logging/logging.dart';
+import 'package:web/web.dart' as web;
 
 import '../models/result_message.dart';
 import 'calculation_runner.dart';
@@ -23,7 +26,7 @@ class CalculatorState extends State<Calculator> {
   bool isComputing = false;
   String note = 'Write a formula and hit Enter, or press =.';
   String percentiles = '';
-  String formulaString = '100 / 4~6';
+  String formulaString = '100 / 10~100';
 
   @override
   void initState() {
@@ -136,36 +139,36 @@ class CalculatorState extends State<Calculator> {
   @override
   Component build(BuildContext context) {
     return div(classes: 'unsure-calc', [
-      form(
+      input(
+        id: 'formula-input',
+        type: InputType.text,
+        value: formulaString,
+        disabled: isComputing,
+        attributes: {
+          'aria-label': 'Formula to compute',
+          'size': '16',
+        },
+        onInput: (dynamic val) {
+          formulaString = '$val';
+        },
         events: {
-          'submit': (dynamic event) {
-            startComputation(formulaString);
+          'keydown': (dynamic event) {
+            try {
+              final kbEvent = event as web.KeyboardEvent;
+              if (kbEvent.key == 'Enter') {
+                kbEvent.preventDefault();
+                final target = kbEvent.target;
+                if ((target as JSAny?).isA<web.HTMLInputElement>()) {
+                  final inputElement = target as web.HTMLInputElement;
+                  formulaString = inputElement.value;
+                }
+                startComputation(formulaString);
+              }
+            } catch (e, stack) {
+              _logger.warning('Failed to handle keydown event: $e', e, stack);
+            }
           },
         },
-        [
-          input(
-            id: 'formula-input',
-            type: InputType.text,
-            value: formulaString,
-            disabled: isComputing,
-            attributes: {
-              'aria-label': 'Formula to compute',
-              'size': '16',
-            },
-            onInput: (dynamic val) {
-              formulaString = '$val';
-            },
-            events: {
-              'keydown': (dynamic event) {
-                try {
-                  if (event.key == 'Enter' || event.keyCode == 13) {
-                    startComputation(formulaString);
-                  }
-                } catch (_) {}
-              },
-            },
-          ),
-        ],
       ),
       div(classes: 'keypad-and-results', [
         div(classes: 'keypad', [
@@ -233,7 +236,7 @@ class CalculatorState extends State<Calculator> {
               ]),
               td([
                 button(
-                  onClick: isComputing ? null : () => add('x'),
+                  onClick: isComputing ? null : () => add('*'),
                   disabled: isComputing,
                   attributes: {'aria-label': 'Multiply (x)'},
                   [Component.text('x')],

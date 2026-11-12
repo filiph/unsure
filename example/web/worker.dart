@@ -1,4 +1,5 @@
 import 'dart:js_interop';
+
 import 'package:logging/logging.dart';
 import 'package:unsure/unsure.dart';
 import 'package:unsure_example/models/result_message.dart';
@@ -48,8 +49,10 @@ void main() {
 
 void _compute(String formulaString, web.DedicatedWorkerGlobalScope scope) {
   _logger.info('Parsing formula: "$formulaString"');
+  // The inline formulas allow 'x' as a synonym for '*'.
+  final normalizedFormula = formulaString.replaceAll(RegExp(r'[xX]'), '*');
   var parser = FormulaParser();
-  var formula = parser.parseString(formulaString);
+  var formula = parser.parseString(normalizedFormula);
 
   if (formula.wasFailure) {
     var buf = StringBuffer();
